@@ -3,7 +3,10 @@
  * на сервер.
  * */
 const createRequest = (options = {}) => {
-  const { url, method = "GET", data, callback } = options;
+  const { url, method = "GET", data, callback, responseType = 'json' } = options;
+
+  const xhr = new XMLHttpRequest();
+  xhr.responseType = responseType;
 
   let requestUrl = url;
   const formData = new FormData();
@@ -26,20 +29,13 @@ const createRequest = (options = {}) => {
     }
   }
 
-  fetch(requestUrl, {
-    method,
-    body: method === "GET" ? null : formData,
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`);
+  xhr.addEventListener('load', () => {
+    if (callback) {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        callback(null, xhr.response);
+      } else {
+        callback(new Error(`HTTP Error: ${xhr.status}`), null);
       }
-      return response.json();
-    })
-    .then((response) => {
-      if (callback) callback(null, response);
-    })
-    .catch((error) => {
-      if (callback) callback(error, null);
-    });
+    }
+  });
 };
