@@ -3,7 +3,7 @@
  * на сервер.
  * */
 const createRequest = (options = {}) => {
-  const { url, method = "GET", data } = options;
+  const { url, method = "GET", data, callback } = options;
 
   let requestUrl = url;
   const formData = new FormData();
@@ -26,4 +26,20 @@ const createRequest = (options = {}) => {
     }
   }
 
+  fetch(requestUrl, {
+    method,
+    body: method === "GET" ? null : formData,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((response) => {
+      if (callback) callback(null, response);
+    })
+    .catch((error) => {
+      if (callback) callback(error, null);
+    });
 };
