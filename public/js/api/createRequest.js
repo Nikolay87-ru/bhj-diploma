@@ -21,7 +21,7 @@ const createRequest = (options = {}) => {
     }
   }
 
-  if (!method === "GET") {
+  if (method !== "GET") {
     if (data) {
       for (const key in data) {
         formData.append(key, data[key]);
@@ -38,4 +38,14 @@ const createRequest = (options = {}) => {
       }
     }
   });
+
+  xhr.addEventListener('error', () => {
+    if (callback) {
+      callback(new Error('Network Error'), null);
+    }
+  });
+
+  xhr.open(method, requestUrl);
+  xhr.send(method === 'GET' ? null : formData);
+  return xhr;
 };
