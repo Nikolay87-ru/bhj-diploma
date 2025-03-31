@@ -3,7 +3,13 @@
  * на сервер.
  * */
 const createRequest = (options = {}) => {
-  const { url, method = "GET", data, callback, responseType = 'json' } = options;
+  const {
+    url,
+    method = "GET",
+    data,
+    callback,
+    responseType = "json",
+  } = options;
 
   const xhr = new XMLHttpRequest();
   xhr.responseType = responseType;
@@ -29,7 +35,7 @@ const createRequest = (options = {}) => {
     }
   }
 
-  xhr.addEventListener('load', () => {
+  xhr.addEventListener("load", () => {
     if (callback) {
       if (xhr.status >= 200 && xhr.status < 300) {
         callback(null, xhr.response);
@@ -39,13 +45,13 @@ const createRequest = (options = {}) => {
     }
   });
 
-  xhr.addEventListener('error', () => {
+  xhr.addEventListener("error", () => {
     if (callback) {
-      callback(new Error('Network Error'), null);
+      callback(new Error("Network Error"), null);
     }
   });
 
   xhr.open(method, requestUrl);
-  xhr.send(method === 'GET' ? null : formData);
+  xhr.send(method === "GET" ? null : formData);
   return xhr;
 };
