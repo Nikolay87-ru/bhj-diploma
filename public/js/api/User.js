@@ -3,19 +3,16 @@
  * регистрацией пользователя из приложения
  * Имеет свойство URL, равное '/user'.
  * */
+
 class User {
   static URL = " /user";
 
   static setCurrent(user) {
-
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
-  /**
-   * Удаляет информацию об авторизованном
-   * пользователе из локального хранилища.
-   * */
   static unsetCurrent() {
-
+    localStorage.removeItem('user');
   }
 
   /**

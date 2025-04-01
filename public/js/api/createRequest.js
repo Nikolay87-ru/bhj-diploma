@@ -36,14 +36,14 @@ const createRequest = (options = {}) => {
       if (xhr.status >= 200 && xhr.status < 300) {
         callback(null, xhr.response);
       } else {
-        callback(new Error(`HTTP Error: ${xhr.status}`), null);
+        callback(new Error(`Ошибка HTTP: ${xhr.status}`), null);
       }
     }
   });
 
   xhr.addEventListener("error", () => {
     if (callback) {
-      callback(new Error("Network Error"), null);
+      callback(new Error("Ошибка сети"), null);
     }
   });
 
