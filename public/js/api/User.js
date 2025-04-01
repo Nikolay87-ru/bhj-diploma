@@ -15,12 +15,9 @@ class User {
     localStorage.removeItem('user');
   }
 
-  /**
-   * Возвращает текущего авторизованного пользователя
-   * из локального хранилища
-   * */
   static current() {
-
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : undefined;
   }
 
   /**
@@ -28,7 +25,18 @@ class User {
    * авторизованном пользователе.
    * */
   static fetch(callback) {
-
+    createRequest({
+      url: this.URL + '/user',
+      method: 'GET',
+      responseType: 'json',
+      data,
+      callback: (err, response) => {
+        if (response && response.user) {
+          this.setCurrent(response.user);
+        }
+        callback(err, response);
+      }
+    });
   }
 
   /**
@@ -59,7 +67,18 @@ class User {
    * User.setCurrent.
    * */
   static register(data, callback) {
-
+    createRequest({
+      url: this.URL + '/register',
+      method: 'POST',
+      responseType: 'json',
+      data,
+      callback: (err, response) => {
+        if (response && response.user) {
+          this.setCurrent(response.user);
+        }
+        callback(err, response);
+      }
+    });
   }
 
   /**
@@ -67,6 +86,17 @@ class User {
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
   static logout(callback) {
-
+    createRequest({
+      url: this.URL + '/logout',
+      method: 'POST',
+      responseType: 'json',
+      data,
+      callback: (err, response) => {
+        if (response && response.user) {
+          this.setCurrent(response.user);
+        }
+        callback(err, response);
+      }
+    });
   }
 }
