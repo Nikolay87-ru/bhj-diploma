@@ -36,8 +36,6 @@ class Sidebar {
           } else {
             sidebar.classList.add("sidebar-open", "sidebar-collapse");
           }
-
-          console.log("Палец коснулся экрана");
         });
       }
     });
