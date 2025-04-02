@@ -18,7 +18,29 @@ class Sidebar {
    * при нажатии на кнопку .sidebar-toggle
    * */
   static initToggleButton() {
+    document.addEventListener("DOMContentLoaded", () => {
+      const sidebarToggle = document.querySelector(".sidebar-toggle");
 
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener("touchend", (event) => {
+          event.preventDefault();
+
+          const sidebar = document.querySelector(".sidebar-mini");
+
+          const isSidebarOpen =
+            sidebar.classList.contains("sidebar-open") ||
+            sidebar.classList.contains("sidebar-collapse");
+
+          if (isSidebarOpen) {
+            sidebar.classList.remove("sidebar-open", "sidebar-collapse");
+          } else {
+            sidebar.classList.add("sidebar-open", "sidebar-collapse");
+          }
+
+          console.log("Палец коснулся экрана");
+        });
+      }
+    });
   }
 
   /**
@@ -28,7 +50,5 @@ class Sidebar {
    * При нажатии на кнопку выхода вызывает User.logout и по успешному
    * выходу устанавливает App.setState( 'init' )
    * */
-  static initAuthLinks() {
-
-  }
+  static initAuthLinks() {}
 }
