@@ -13,16 +13,19 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor(element) {
+    this.element = element;
+    this.registerEvents();
 
+    if (!element) {
+      throw new Error("Не передан элемент формы");
+    }
   }
 
   /**
    * Необходимо запретить отправку формы и в момент отправки
    * вызывает метод submit()
    * */
-  registerEvents() {
-
-  }
+  registerEvents() {}
 
   /**
    * Преобразует данные формы в объект вида
@@ -31,19 +34,13 @@ class AsyncForm {
    *  'название поля формы 2': 'значение поля формы 2'
    * }
    * */
-  getData() {
+  getData() {}
 
-  }
-
-  onSubmit(options){
-
-  }
+  onSubmit(options) {}
 
   /**
    * Вызывает метод onSubmit и передаёт туда
    * данные, полученные из метода getData()
    * */
-  submit() {
-
-  }
+  submit() {}
 }

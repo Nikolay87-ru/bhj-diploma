@@ -9,8 +9,6 @@ class Sidebar {
       const sidebarToggle = document.querySelector(".sidebar-toggle");
       const sidebar = document.querySelector(".sidebar-mini");
 
-
-
       if (sidebarToggle) {
         sidebarToggle.addEventListener("click", (event) => {
           event.preventDefault();
@@ -22,13 +20,6 @@ class Sidebar {
     });
   }
 
-  /**
-   * При нажатии на кнопку входа, показывает окно входа
-   * (через найденное в App.getModal)
-   * При нажатии на кнопку регастрации показывает окно регистрации
-   * При нажатии на кнопку выхода вызывает User.logout и по успешному
-   * выходу устанавливает App.setState( 'init' )
-   * */
   static initAuthLinks() {
     const loginButton = document.querySelector(".menu-item_login a");
     const registrButton = document.querySelector(".menu-item_register a");
