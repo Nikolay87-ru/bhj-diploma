@@ -19,7 +19,6 @@ class User {
       url: this.URL + "/user",
       method: "GET",
       responseType: "json",
-      data,
       callback: (err, response) => {
         if (response && response.success) {
           this.setCurrent(response.user);
@@ -66,7 +65,6 @@ class User {
       url: this.URL + "/logout",
       method: "POST",
       responseType: "json",
-      data,
       callback: (err, response) => {
         if (response && response.success) {
           this.unsetCurrent();

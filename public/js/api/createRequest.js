@@ -52,11 +52,11 @@ const createRequest = (options = {}) => {
   return xhr;
 };
 
-createRequest({
-  url: 'https://example.com',
-  data: {
-    mail: 'ivan@biz.pro',
-    password: 'odinodin'
-  },
-  method: 'GET',
-});
+// createRequest({
+//   url: 'https://example.com',
+//   data: {
+//     mail: 'ivan@biz.pro',
+//     password: 'odinodin'
+//   },
+//   method: 'GET',
+// });
