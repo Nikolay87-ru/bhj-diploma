@@ -7,22 +7,16 @@ class Sidebar {
   static initToggleButton() {
     document.addEventListener("DOMContentLoaded", () => {
       const sidebarToggle = document.querySelector(".sidebar-toggle");
+      const sidebar = document.querySelector(".sidebar-mini");
+
+      sidebar.classList.add("sidebar-collapse");
 
       if (sidebarToggle) {
         sidebarToggle.addEventListener("touchend", (event) => {
           event.preventDefault();
 
-          const sidebar = document.querySelector(".sidebar-mini");
-
-          const isSidebarOpen =
-            sidebar.classList.contains("sidebar-open") ||
-            sidebar.classList.contains("sidebar-collapse");
-
-          if (isSidebarOpen) {
-            sidebar.classList.remove("sidebar-open", "sidebar-collapse");
-          } else {
-            sidebar.classList.add("sidebar-open", "sidebar-collapse");
-          }
+          sidebar.classList.toggle("sidebar-open");
+          sidebar.classList.toggle("sidebar-collapse");
         });
       }
     });
@@ -35,7 +29,5 @@ class Sidebar {
    * При нажатии на кнопку выхода вызывает User.logout и по успешному
    * выходу устанавливает App.setState( 'init' )
    * */
-  static initAuthLinks() {
-    
-  }
+  static initAuthLinks() {}
 }
