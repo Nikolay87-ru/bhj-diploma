@@ -16,7 +16,7 @@ class Modal {
     this.registerEvents();
 
     if (!element) {
-      throw new Error("Переданный элемент всплывающего окна не существует");
+      throw new Error("Переданный элемент (всплывающее окно) не существует");
     }
   }
 
@@ -26,7 +26,13 @@ class Modal {
    * (с помощью метода Modal.onClose)
    * */
   registerEvents() {
-    
+    const modalCloseButtons = document.querySelectorAll(
+      '[data-dismiss="modal"]'
+    );
+
+    modalCloseButtons.forEach((closeBtn) => {
+      closeBtn.addEventListener("touchend", () => this.onClose());
+    });
   }
 
   /**
