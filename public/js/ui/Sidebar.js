@@ -30,6 +30,13 @@ class Sidebar {
    * выходу устанавливает App.setState( 'init' )
    * */
   static initAuthLinks() {
-    // const enterButton = document.querySelector(".menu-item_login");
+    const loginButton = document.querySelector(".menu-item_login a");
+
+    if (loginButton) {
+      loginButton.addEventListener("touchend", (event) => {
+        event.preventDefault();
+        App.getModal("login").open();
+      });
+    }
   }
 }
