@@ -11,8 +11,13 @@ class Modal {
    * Если переданный элемент не существует,
    * необходимо выкинуть ошибку.
    * */
-  constructor(element){
+  constructor(element) {
+    this.element = element;
+    this.registerEvents();
 
+    if (!element) {
+      throw new Error("Переданный элемент всплывающего окна не существует");
+    }
   }
 
   /**
@@ -22,26 +27,21 @@ class Modal {
    * */
   registerEvents() {
 
+    
   }
 
   /**
    * Срабатывает после нажатия на элементы, закрывающие окно.
    * Закрывает текущее окно (Modal.close())
    * */
-  onClose(e) {
-
-  }
+  onClose(e) {}
   /**
    * Открывает окно: устанавливает CSS-свойство display
    * со значением «block»
    * */
-  open() {
-
-  }
+  open() {}
   /**
    * Закрывает окно: удаляет CSS-свойство display
    * */
-  close(){
-
-  }
+  close() {}
 }
