@@ -31,11 +31,31 @@ class Sidebar {
    * */
   static initAuthLinks() {
     const loginButton = document.querySelector(".menu-item_login a");
+    const registrButton = document.querySelector(".menu-item_register a");
+    const logoutButton = document.querySelector(".menu-item_login a");
 
     if (loginButton) {
       loginButton.addEventListener("touchend", (event) => {
         event.preventDefault();
         App.getModal("login").open();
+      });
+    }
+
+    if (registrButton) {
+      registrButton.addEventListener("touchend", (event) => {
+        event.preventDefault();
+        App.getModal("register").open();
+      });
+    }
+
+    if (loginButton) {
+      loginButton.addEventListener("touchend", (event) => {
+        event.preventDefault();
+        User.logout((err, response) => {
+          if (response && response.success) {
+            App.setState("init");
+          }
+        });
       });
     }
   }
