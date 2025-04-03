@@ -14,12 +14,11 @@ class Modal {
     );
 
     modalCloseButtons.forEach((closeBtn) => {
-      closeBtn.addEventListener("touchend", () => this.onClose());
+      closeBtn.addEventListener("click", () => this.onClose());
     });
   }
 
-  onClose(event) {
-    event.preventDefault();
+  onClose() {
     this.close();
   }
 

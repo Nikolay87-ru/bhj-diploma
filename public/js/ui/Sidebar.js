@@ -9,10 +9,10 @@ class Sidebar {
       const sidebarToggle = document.querySelector(".sidebar-toggle");
       const sidebar = document.querySelector(".sidebar-mini");
 
-      sidebar.classList.add("sidebar-collapse");
+
 
       if (sidebarToggle) {
-        sidebarToggle.addEventListener("touchend", (event) => {
+        sidebarToggle.addEventListener("click", (event) => {
           event.preventDefault();
 
           sidebar.classList.toggle("sidebar-open");
@@ -35,23 +35,27 @@ class Sidebar {
     const logoutButton = document.querySelector(".menu-item_login a");
 
     if (loginButton) {
-      loginButton.addEventListener("touchend", (event) => {
+      loginButton.addEventListener("click", (event) => {
         event.preventDefault();
         App.getModal("login").open();
       });
     }
 
     if (registrButton) {
-      registrButton.addEventListener("touchend", (event) => {
+      registrButton.addEventListener("click", (event) => {
         event.preventDefault();
         App.getModal("register").open();
       });
     }
 
-    if (loginButton) {
-      loginButton.addEventListener("touchend", (event) => {
+    if (logoutButton) {
+      logoutButton.addEventListener("click", (event) => {
         event.preventDefault();
         User.logout((err, response) => {
+          if (err || !response.success) {
+            return;
+          }
+
           if (response && response.success) {
             App.setState("init");
           }
