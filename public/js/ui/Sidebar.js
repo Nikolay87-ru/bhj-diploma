@@ -29,5 +29,7 @@ class Sidebar {
    * При нажатии на кнопку выхода вызывает User.logout и по успешному
    * выходу устанавливает App.setState( 'init' )
    * */
-  static initAuthLinks() {}
+  static initAuthLinks() {
+    // const enterButton = document.querySelector(".menu-item_login");
+  }
 }
