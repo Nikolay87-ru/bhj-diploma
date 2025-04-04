@@ -20,7 +20,7 @@ class User {
       method: "GET",
       responseType: "json",
       callback: (error, response) => {
-        if (response && response.use) {
+        if (response && response.user) {
           this.setCurrent(response.user);
         } else {
           this.unsetCurrent();

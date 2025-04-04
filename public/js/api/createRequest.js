@@ -51,12 +51,3 @@ const createRequest = (options = {}) => {
   xhr.send(method === "GET" ? null : formData);
   return xhr;
 };
-
-// createRequest({
-//   url: 'https://example.com',
-//   data: {
-//     mail: 'ivan@biz.pro',
-//     password: 'odinodin'
-//   },
-//   method: 'GET',
-// });
