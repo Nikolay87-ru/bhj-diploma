@@ -9,8 +9,8 @@ class LogoutForm extends AsyncForm {
 
       if (response && response.success) {
         this.element.reset();
-        App.setState("user-logged");
-        App.getModal("init");
+        App.setState("init");
+        App.getModal("logout");
       } else {
         return;
       }
