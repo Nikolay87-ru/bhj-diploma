@@ -27,7 +27,7 @@ class AsyncForm {
     return data;
   }
 
-  onSubmit(options) {}
+  onSubmit(data) {}
 
   submit() {
     const formData = this.getData();
