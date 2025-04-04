@@ -23,7 +23,7 @@ class Sidebar {
   static initAuthLinks() {
     const loginButton = document.querySelector(".menu-item_login a");
     const registrButton = document.querySelector(".menu-item_register a");
-    const logoutButton = document.querySelector(".menu-item_login a");
+    const logoutButton = document.querySelector(".menu-item_logout a");
 
     if (loginButton) {
       loginButton.addEventListener("click", (event) => {
