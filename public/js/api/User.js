@@ -16,11 +16,11 @@ class User {
 
   static fetch(callback) {
     createRequest({
-      url: this.URL + "/user",
+      url: this.URL + "/current",
       method: "GET",
       responseType: "json",
       callback: (error, response) => {
-        if (response && response.success) {
+        if (response && response.use) {
           this.setCurrent(response.user);
         } else {
           this.unsetCurrent();
