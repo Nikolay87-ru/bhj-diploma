@@ -11,8 +11,12 @@ class UserWidget {
    * Если переданный элемент не существует,
    * необходимо выкинуть ошибку.
    * */
-  constructor(element){
+  constructor(element) {
+    this.element = element;
 
+    if (!element) {
+      throw new Error("Не передан элемент формы");
+    }
   }
 
   /**
@@ -22,7 +26,14 @@ class UserWidget {
    * в элемент .user-name устанавливает имя
    * авторизованного пользователя
    * */
-  update(){
+  update() {
+    const currentUser = User.current();
+    const userName = this.element.querySelector(".user-name");
 
+    if (!currentUser) {
+      return;
+    }
+
+    userName.innerHTML = currentUser.name;
   }
 }
