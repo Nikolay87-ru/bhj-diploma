@@ -1,6 +1,4 @@
-
 class LogoutForm extends AsyncForm {
-
   onSubmit(data) {
     User.logout(data, (error, response) => {
       if (error) {
