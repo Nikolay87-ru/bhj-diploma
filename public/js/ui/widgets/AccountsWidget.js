@@ -15,6 +15,7 @@ class AccountsWidget {
    * */
   constructor(element) {
     this.element = element;
+    this.accounts = this.element.querySelectorAll(".account");
     this.registerEvents();
     this.update();
 
@@ -81,8 +82,7 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-    const accounts = this.element.querySelectorAll('.account');
-    accounts.forEach(account => account.remove());
+    this.accounts.forEach((account) => account.remove());
   }
 
   /**
@@ -92,14 +92,28 @@ class AccountsWidget {
    * счёта класс .active.
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
-  onSelectAccount(element) {}
+  onSelectAccount(element) {
+    this.accounts.forEach((account) => account.classList.remove("active"));
+
+    element.classList.add("active");
+    App.showPage("transactions", { account_id: element.dataset.id });
+  }
 
   /**
    * Возвращает HTML-код счёта для последующего
    * отображения в боковой колонке.
    * item - объект с данными о счёте
    * */
-  getAccountHTML(item) {}
+  getAccountHTML(item) {
+    return `
+    <li class="account" data-id="${item.id}>
+      <a href="#">
+          <span>${item.name}</span> /
+          <span>${item.sum} ₽</span>
+      </a>
+    </li>
+  `;
+  }
 
   /**
    * Получает массив с информацией о счетах.
@@ -107,5 +121,15 @@ class AccountsWidget {
    * AccountsWidget.getAccountHTML HTML-код элемента
    * и добавляет его внутрь элемента виджета
    * */
-  renderItem(data) {}
+  renderItem(data) {
+    const accountsList = this.element.querySelector("ul.sidebar-menu");
+    if (!accountsList) return;
+
+    const allAccounts = accountsList.querySelectorAll(".account");
+    allAccounts.forEach((account) => account.remove());
+
+    data.forEach((item) => {
+      accountsList.insertAdjacentHTML("beforeend", this.getAccountHTML(item));
+    });
+  }
 }
