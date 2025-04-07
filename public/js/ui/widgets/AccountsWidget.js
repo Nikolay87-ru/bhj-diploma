@@ -14,7 +14,13 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
+    this.element = element;
+    this.registerEvents();
+    this.update();
 
+    if (!element) {
+      throw new Error("Не передан элемент формы");
+    }
   }
 
   /**
@@ -25,7 +31,12 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
+    const createAccButton = document.querySelector(".create-account");
+    const modalNewAcc = document.getElementById("modal-new-account");
 
+    createAccButton.addEventListener("click", () => {
+      modalNewAcc.style.setProperty("display", "block");
+    })
   }
 
   /**
