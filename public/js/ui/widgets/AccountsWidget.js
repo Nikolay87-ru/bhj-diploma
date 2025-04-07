@@ -58,14 +58,32 @@ class AccountsWidget {
    * Отображает список полученных счетов с помощью
    * метода renderItem()
    * */
-  update() {}
+  update() {
+    if (!User.current()) {
+      return;
+    }
+
+    Account.list(User.current(), (error, response) => {
+      if (error) {
+        return;
+      }
+
+      if (response && response.data) {
+        this.clear();
+        this.renderItem(response.data);
+      }
+    });
+  }
 
   /**
    * Очищает список ранее отображённых счетов.
    * Для этого необходимо удалять все элементы .account
    * в боковой колонке
    * */
-  clear() {}
+  clear() {
+    const accounts = this.element.querySelectorAll('.account');
+    accounts.forEach(account => account.remove());
+  }
 
   /**
    * Срабатывает в момент выбора счёта
