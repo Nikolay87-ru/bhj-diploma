@@ -150,7 +150,8 @@ class AccountsWidget {
 
   removeAccount() {
     const activeAccount = this.element.querySelector(".account.active");
-
+    const accountId = activeAccount.dataset.id;
+    
     if (!activeAccount) {
       return;
     }
