@@ -47,6 +47,12 @@
       "email": "coco@coco.ru",
       "password": "coco",
       "id": "jgnf930m92y2uh5"
+    },
+    {
+      "name": "test",
+      "email": "test@test.com",
+      "password": "test",
+      "id": "jgnf63gm974zhse"
     }
   ],
   "accounts": [
@@ -79,6 +85,21 @@
       "name": "ewqwe",
       "user_id": "jgnf3iom92t25u0",
       "id": "jgnf47gm9732bqq"
+    },
+    {
+      "name": "Тест",
+      "user_id": "jgnf63gm974zhse",
+      "id": "jgnf7gkm97502ed"
+    },
+    {
+      "name": "dssd",
+      "user_id": "jgnf63gm974zhse",
+      "id": "jgnf6e8m9750coi"
+    },
+    {
+      "name": "petr",
+      "user_id": "jgnf63gm974zhse",
+      "id": "jgnf2i4m975647q"
     }
   ],
   "transactions": [

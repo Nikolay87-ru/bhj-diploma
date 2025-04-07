@@ -13,7 +13,7 @@ class AccountsWidget {
    * Если переданный элемент не существует,
    * необходимо выкинуть ошибку.
    * */
-  constructor( element ) {
+  constructor(element) {
     this.element = element;
     this.registerEvents();
     this.update();
@@ -31,12 +31,21 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-    const createAccButton = document.querySelector(".create-account");
-    const modalNewAcc = document.getElementById("modal-new-account");
+    this.element.addEventListener("click", (e) => {
+      e.preventDefault();
 
-    createAccButton.addEventListener("click", () => {
-      modalNewAcc.style.setProperty("display", "block");
-    })
+      const createAccount = e.target.closest(".create-account");
+      const accountItem = e.target.closest(".account");
+
+      if (createAccount) {
+        App.getModal("createAccount").open();
+        return;
+      }
+
+      if (accountItem) {
+        this.onSelectAccount(accountItem);
+      }
+    });
   }
 
   /**
@@ -49,18 +58,14 @@ class AccountsWidget {
    * Отображает список полученных счетов с помощью
    * метода renderItem()
    * */
-  update() {
-
-  }
+  update() {}
 
   /**
    * Очищает список ранее отображённых счетов.
    * Для этого необходимо удалять все элементы .account
    * в боковой колонке
    * */
-  clear() {
-
-  }
+  clear() {}
 
   /**
    * Срабатывает в момент выбора счёта
@@ -69,18 +74,14 @@ class AccountsWidget {
    * счёта класс .active.
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
-  onSelectAccount( element ) {
-
-  }
+  onSelectAccount(element) {}
 
   /**
    * Возвращает HTML-код счёта для последующего
    * отображения в боковой колонке.
    * item - объект с данными о счёте
    * */
-  getAccountHTML(item){
-
-  }
+  getAccountHTML(item) {}
 
   /**
    * Получает массив с информацией о счетах.
@@ -88,7 +89,5 @@ class AccountsWidget {
    * AccountsWidget.getAccountHTML HTML-код элемента
    * и добавляет его внутрь элемента виджета
    * */
-  renderItem(data){
-
-  }
+  renderItem(data) {}
 }

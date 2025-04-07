@@ -52,7 +52,7 @@ class User {
       responseType: "json",
       data,
       callback: (error, response) => {
-        if (response && response.user) {
+        if (response && response.success && response.user) {
           this.setCurrent(response.user);
         }
         callback(error, response);
