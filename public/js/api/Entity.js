@@ -6,6 +6,7 @@ class Entity {
       url: this.URL,
       method: 'GET',
       data: data,
+      responseType: 'json',
       callback: callback
     });
   }
@@ -15,6 +16,7 @@ class Entity {
       url: this.URL,
       method: 'PUT',
       data: data,
+      responseType: 'json',
       callback: callback
     });
   }
@@ -24,6 +26,7 @@ class Entity {
       url: this.URL,
       method: 'DELETE',
       data: data,
+      responseType: 'json',
       callback: callback
     });
   }
