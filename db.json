@@ -242,6 +242,24 @@
       "sum": 300000,
       "type": "expense",
       "user_id": "1"
+    },
+    {
+      "id": "jgnf7dgm98my57q",
+      "type": "income",
+      "name": "Тест",
+      "sum": 200,
+      "account_id": "jgnfbs4m979ffrj",
+      "user_id": "jgnf3iom92t25u0",
+      "created_at": "2025-04-08T15:08:45.157Z"
+    },
+    {
+      "id": "jgnfa7gm98myex4",
+      "type": "expense",
+      "name": "Тест",
+      "sum": 200,
+      "account_id": "jgnfbs4m979ffrj",
+      "user_id": "jgnf3iom92t25u0",
+      "created_at": "2025-04-08T15:08:57.735Z"
     }
   ]
 }
