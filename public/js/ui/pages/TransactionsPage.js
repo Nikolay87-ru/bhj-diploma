@@ -58,7 +58,6 @@ class TransactionsPage {
   removeAccount() {
     const activeAccount = document.querySelector(".account.active");
     if (!activeAccount) {
-      alert("Пожалуйста, выберите счёт для удаления");
       return;
     }
 
@@ -88,7 +87,6 @@ class TransactionsPage {
       this.closeConfirmMessage();
       
       if (err || !response.success) {
-        alert("Ошибка при удалении счёта");
         return;
       }
       
@@ -147,13 +145,27 @@ class TransactionsPage {
    * Форматирует дату в формате 2019-03-10 03:20:41 (строка)
    * в формат «10 марта 2019 г. в 03:20»
    * */
-  formatDate(date) {}
+  formatDate(date) {
+    const today = new Date(date);
+
+    const day = today.getDate();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+    const hours = today.getHours().toString().padStart(2, "0");
+    const minutes = today.getMinutes().toString().padStart(2, "0");
+
+    console.log(`${day} ${month} ${year} г. в ${hours}:${minutes}`)
+
+    return `${day} ${month} ${year} г. в ${hours}:${minutes}`;
+  }
 
   /**
    * Формирует HTML-код транзакции (дохода или расхода).
    * item - объект с информацией о транзакции
    * */
-  getTransactionHTML(item) {}
+  getTransactionHTML(item) {
+    
+  }
 
   /**
    * Отрисовывает список транзакций на странице
