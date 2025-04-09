@@ -118,9 +118,14 @@
       "id": "jgnf9t4m98n6nfk"
     },
     {
-      "name": "test",
+      "name": "вава",
       "user_id": "jgnf80om99w1xze",
-      "id": "jgnfal8m99xwulx"
+      "id": "jgnf5jgm9a1cflr"
+    },
+    {
+      "name": "ывы",
+      "user_id": "jgnf80om99w1xze",
+      "id": "jgnf8u4m9a1cr5a"
     }
   ],
   "transactions": [
@@ -294,15 +299,6 @@
       "account_id": "jgnf9t4m98n6nfk",
       "user_id": "jgnf3iom92t25u0",
       "created_at": "2025-04-08T15:15:35.102Z"
-    },
-    {
-      "id": "jgnf93cm99xx0fx",
-      "type": "income",
-      "name": "Тест",
-      "sum": 200,
-      "account_id": "jgnfal8m99xwulx",
-      "user_id": "jgnf80om99w1xze",
-      "created_at": "2025-04-09T13:03:34.268Z"
     }
   ]
 }

@@ -36,14 +36,20 @@ class TransactionsPage {
     document.addEventListener("click", (event) => {
       if (event.target.closest(".transaction__remove")) {
         event.preventDefault();
-        this.removeTransaction();
+        this.removeTransaction(event.target.closest(".transaction__remove"));
       }
-    });
-
-    document.addEventListener("click", (event) => {
+      
       if (event.target.closest(".remove-account")) {
         event.preventDefault();
         this.removeAccount();
+      }
+      
+      if (event.target.closest(".message__remove")) {
+        this.confirmRemoveAccount();
+      }
+      
+      if (event.target.closest(".message__refuse")) {
+        this.closeMessage();
       }
     });
   }
@@ -58,32 +64,47 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
-    const activeAccount = this.element.querySelector(".account.active");
-    console.log(`${element.dataset.id}`)
-    const accountId = activeAccount.dataset.id;
+    const activeAccount = document.querySelector(".account.active");
     
     if (!activeAccount) {
+      console.log("выберите счёт для удаления");
       return;
     }
 
+    this.accountToRemove = activeAccount; // Сохраняем для последующего удаления
+    
     const messageHTML = `
-    <div class="message">
-      <div class="message__title">Вы действительно хотите удалить счёт?</div>
-      <button class="message__remove">Да</button>
-      <button class="message__refuse">Нет</button>
-    </div>
-  `;
+      <div class="message-overlay">
+        <div class="message-box">
+          <div class="message__title">Вы действительно хотите удалить "${activeAccount.querySelector('span').textContent}"?</div>
+          <div class="message__buttons">
+            <button class="btn btn-danger message__remove">Да, удалить</button>
+            <button class="btn btn-default message__refuse">Отмена</button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', messageHTML);
+  }
 
-  this.element.insertAdjacentHTML('afterend', messageHTML);
-
+  confirmRemoveAccount() {
+    if (!this.accountToRemove) return;
+    
+    const accountId = this.accountToRemove.dataset.id;
+    
     Account.remove({ id: accountId }, (error, response) => {
+      this.closeMessage();
+      
       if (error || !response.success) {
+        console.log("Ошибка при удалении счёта");
         return;
       }
 
-      activeAccount.remove();
-
-      const accounts = this.element.querySelectorAll(".account");
+      this.accountToRemove.remove();
+      this.accountToRemove = null;
+      
+      const accounts = document.querySelectorAll(".account");
       if (accounts.length > 0) {
         accounts[0].classList.add("active");
         App.showPage("transactions", { account_id: accounts[0].dataset.id });
@@ -91,8 +112,17 @@ class TransactionsPage {
         App.showPage("transactions", { account_id: null });
       }
 
-      App.update();
+      App.updateWidgets();
+      App.updateForms();
     });
+  }
+
+  closeMessage() {
+    const message = document.querySelector(".message-overlay");
+    if (message) {
+      message.remove();
+    }
+    this.accountToRemove = null;
   }
 
   /**
