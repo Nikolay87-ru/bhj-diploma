@@ -17,7 +17,6 @@ class AccountsWidget {
     this.element = element;
     this.registerEvents();
     this.update();
-    this.registerRemoveAccountEvent();
 
     if (!element) {
       throw new Error("Не передан элемент формы");
@@ -136,42 +135,6 @@ class AccountsWidget {
 
     data.forEach((item) => {
       accountsList.insertAdjacentHTML("beforeend", this.getAccountHTML(item));
-    });
-  }
-
-  registerRemoveAccountEvent() {
-    document.addEventListener("click", (event) => {
-      if (event.target.closest(".remove-account")) {
-        event.preventDefault();
-        this.removeAccount();
-      }
-    });
-  }
-
-  removeAccount() {
-    const activeAccount = this.element.querySelector(".account.active");
-    const accountId = activeAccount.dataset.id;
-    
-    if (!activeAccount) {
-      return;
-    }
-
-    Account.remove({ id: accountId }, (error, response) => {
-      if (error || !response.success) {
-        return;
-      }
-
-      activeAccount.remove();
-
-      const accounts = this.element.querySelectorAll(".account");
-      if (accounts.length > 0) {
-        accounts[0].classList.add("active");
-        App.showPage("transactions", { account_id: accounts[0].dataset.id });
-      } else {
-        App.showPage("transactions", { account_id: null });
-      }
-
-      App.update();
     });
   }
 }

@@ -10,15 +10,20 @@ class TransactionsPage {
    * Сохраняет переданный элемент и регистрирует события
    * через registerEvents()
    * */
-  constructor( element ) {
+  constructor(element) {
+    if (!element) {
+      throw new Error("Не передан элемент формы");
+    }
 
+    this.element = element;
+    this.registerEvents();
   }
 
   /**
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-
+    this.render();
   }
 
   /**
@@ -28,7 +33,19 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
+    document.addEventListener("click", (event) => {
+      if (event.target.closest(".transaction__remove")) {
+        event.preventDefault();
+        this.removeTransaction();
+      }
+    });
 
+    document.addEventListener("click", (event) => {
+      if (event.target.closest(".remove-account")) {
+        event.preventDefault();
+        this.removeAccount();
+      }
+    });
   }
 
   /**
@@ -41,7 +58,41 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
+    const activeAccount = this.element.querySelector(".account.active");
+    console.log(`${element.dataset.id}`)
+    const accountId = activeAccount.dataset.id;
+    
+    if (!activeAccount) {
+      return;
+    }
 
+    const messageHTML = `
+    <div class="message">
+      <div class="message__title">Вы действительно хотите удалить счёт?</div>
+      <button class="message__remove">Да</button>
+      <button class="message__refuse">Нет</button>
+    </div>
+  `;
+
+  this.element.insertAdjacentHTML('afterend', messageHTML);
+
+    Account.remove({ id: accountId }, (error, response) => {
+      if (error || !response.success) {
+        return;
+      }
+
+      activeAccount.remove();
+
+      const accounts = this.element.querySelectorAll(".account");
+      if (accounts.length > 0) {
+        accounts[0].classList.add("active");
+        App.showPage("transactions", { account_id: accounts[0].dataset.id });
+      } else {
+        App.showPage("transactions", { account_id: null });
+      }
+
+      App.update();
+    });
   }
 
   /**
@@ -50,9 +101,7 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update(),
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
-  removeTransaction( id ) {
-
-  }
+  removeTransaction(id) {}
 
   /**
    * С помощью Account.get() получает название счёта и отображает
@@ -60,47 +109,35 @@ class TransactionsPage {
    * Получает список Transaction.list и полученные данные передаёт
    * в TransactionsPage.renderTransactions()
    * */
-  render(options){
-
-  }
+  render(options) {}
 
   /**
    * Очищает страницу. Вызывает
    * TransactionsPage.renderTransactions() с пустым массивом.
    * Устанавливает заголовок: «Название счёта»
    * */
-  clear() {
-
-  }
+  clear() {}
 
   /**
    * Устанавливает заголовок в элемент .content-title
    * */
-  renderTitle(name){
-
-  }
+  renderTitle(name) {}
 
   /**
    * Форматирует дату в формате 2019-03-10 03:20:41 (строка)
    * в формат «10 марта 2019 г. в 03:20»
    * */
-  formatDate(date){
-
-  }
+  formatDate(date) {}
 
   /**
    * Формирует HTML-код транзакции (дохода или расхода).
    * item - объект с информацией о транзакции
    * */
-  getTransactionHTML(item){
-
-  }
+  getTransactionHTML(item) {}
 
   /**
    * Отрисовывает список транзакций на странице
    * используя getTransactionHTML
    * */
-  renderTransactions(data){
-
-  }
+  renderTransactions(data) {}
 }
