@@ -11,12 +11,8 @@ class TransactionsPage {
    * через registerEvents()
    * */
   constructor(element) {
-    if (!element) {
-      throw new Error("Не передан элемент формы");
-    }
-
+    if (!element) throw new Error("Не передан элемент формы");
     this.element = element;
-    this.accountToRemove = null;
     this.registerEvents();
   }
 
@@ -37,15 +33,15 @@ class TransactionsPage {
     document.addEventListener("click", (e) => {
       if (e.target.closest(".remove-account")) {
         e.preventDefault();
-        this.showConfirmationDialog();
+        this.removeAccount();
       }
       
       if (e.target.closest(".confirm-remove")) {
-        this.executeAccountRemoval();
+        this.confirmAccountRemove();
       }
       
       if (e.target.closest(".cancel-remove")) {
-        this.closeConfirmationDialog();
+        this.closeConfirmMessage();
       }
     });
   }
@@ -59,20 +55,18 @@ class TransactionsPage {
    * либо обновляйте только виджет со счетами и формы создания дохода и расхода
    * для обновления приложения
    * */
-  showConfirmationDialog() {
+  removeAccount() {
     const activeAccount = document.querySelector(".account.active");
     if (!activeAccount) {
-      alert("Выберите счёт для удаления");
+      alert("Пожалуйста, выберите счёт для удаления");
       return;
     }
-    
-    this.accountToRemove = activeAccount;
-    
-    const dialogHTML = `
-      <div class="confirmation-dialog">
-        <div class="dialog-content">
+
+    const messageHTML = `
+      <div class="confirm-message" data-account-id="${activeAccount.dataset.id}">
+        <div class="message-content">
           <p>Вы действительно хотите удалить счёт "${activeAccount.querySelector('span').textContent}"?</p>
-          <div class="dialog-buttons">
+          <div class="message-buttons">
             <button class="btn btn-danger confirm-remove">Удалить</button>
             <button class="btn btn-default cancel-remove">Отмена</button>
           </div>
@@ -80,26 +74,27 @@ class TransactionsPage {
       </div>
     `;
     
-    document.body.insertAdjacentHTML("beforeend", dialogHTML);
+    document.body.insertAdjacentHTML("beforeend", messageHTML);
   }
 
-  executeAccountRemoval() {
-    if (!this.accountToRemove) {
-      this.closeConfirmationDialog();
-      return;
-    }
+  confirmAccountRemove() {
+    const confirmMessage = document.querySelector(".confirm-message");
+    if (!confirmMessage) return;
     
-    const accountId = this.accountToRemove.dataset.id;
+    const accountId = confirmMessage.dataset.accountId;
+    const activeAccount = document.querySelector(`.account[data-id="${accountId}"]`);
     
     Account.remove({ id: accountId }, (err, response) => {
-      this.closeConfirmationDialog();
+      this.closeConfirmMessage();
       
       if (err || !response.success) {
         alert("Ошибка при удалении счёта");
         return;
       }
       
-      this.accountToRemove.remove();
+      if (activeAccount) {
+        activeAccount.remove();
+      }
       
       const accounts = document.querySelectorAll(".account");
       if (accounts.length > 0) {
@@ -114,11 +109,11 @@ class TransactionsPage {
     });
   }
 
-  closeConfirmationDialog() {
-    const dialog = document.querySelector(".confirmation-dialog");
-    if (dialog) dialog.remove();
-    this.accountToRemove = null;
+  closeConfirmMessage() {
+    const confirmMessage = document.querySelector(".confirm-message");
+    if (confirmMessage) confirmMessage.remove();
   }
+
 
   /**
    * Удаляет транзакцию (доход или расход). Требует

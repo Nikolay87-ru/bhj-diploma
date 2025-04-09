@@ -81,7 +81,7 @@
   line-height: 70px;
 }
 
-.confirmation-dialog {
+.confirm-message {
   position: fixed;
   top: 0;
   left: 0;
@@ -94,7 +94,7 @@
   z-index: 1000;
 }
 
-.dialog-content {
+.message-content {
   background: white;
   padding: 20px;
   border-radius: 4px;
@@ -103,7 +103,7 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-.dialog-buttons {
+.message-buttons {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
