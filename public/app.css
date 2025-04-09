@@ -81,7 +81,7 @@
   line-height: 70px;
 }
 
-.message-overlay {
+.confirmation-dialog {
   position: fixed;
   top: 0;
   left: 0;
@@ -94,21 +94,17 @@
   z-index: 1000;
 }
 
-.message-box {
+.dialog-content {
   background: white;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 4px;
   max-width: 400px;
-  width: 100%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  width: 90%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-.message__title {
-  margin-bottom: 20px;
-  font-size: 16px;
-}
-
-.message__buttons {
+.dialog-buttons {
+  margin-top: 20px;
   display: flex;
   justify-content: flex-end;
   gap: 10px;

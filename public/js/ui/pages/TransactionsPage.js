@@ -16,6 +16,7 @@ class TransactionsPage {
     }
 
     this.element = element;
+    this.accountToRemove = null;
     this.registerEvents();
   }
 
@@ -33,23 +34,18 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    document.addEventListener("click", (event) => {
-      if (event.target.closest(".transaction__remove")) {
-        event.preventDefault();
-        this.removeTransaction(event.target.closest(".transaction__remove"));
+    document.addEventListener("click", (e) => {
+      if (e.target.closest(".remove-account")) {
+        e.preventDefault();
+        this.showConfirmationDialog();
       }
       
-      if (event.target.closest(".remove-account")) {
-        event.preventDefault();
-        this.removeAccount();
+      if (e.target.closest(".confirm-remove")) {
+        this.executeAccountRemoval();
       }
       
-      if (event.target.closest(".message__remove")) {
-        this.confirmRemoveAccount();
-      }
-      
-      if (event.target.closest(".message__refuse")) {
-        this.closeMessage();
+      if (e.target.closest(".cancel-remove")) {
+        this.closeConfirmationDialog();
       }
     });
   }
@@ -63,46 +59,47 @@ class TransactionsPage {
    * либо обновляйте только виджет со счетами и формы создания дохода и расхода
    * для обновления приложения
    * */
-  removeAccount() {
+  showConfirmationDialog() {
     const activeAccount = document.querySelector(".account.active");
-    
     if (!activeAccount) {
-      console.log("выберите счёт для удаления");
+      alert("Выберите счёт для удаления");
       return;
     }
-
-    this.accountToRemove = activeAccount; // Сохраняем для последующего удаления
     
-    const messageHTML = `
-      <div class="message-overlay">
-        <div class="message-box">
-          <div class="message__title">Вы действительно хотите удалить "${activeAccount.querySelector('span').textContent}"?</div>
-          <div class="message__buttons">
-            <button class="btn btn-danger message__remove">Да, удалить</button>
-            <button class="btn btn-default message__refuse">Отмена</button>
+    this.accountToRemove = activeAccount;
+    
+    const dialogHTML = `
+      <div class="confirmation-dialog">
+        <div class="dialog-content">
+          <p>Вы действительно хотите удалить счёт "${activeAccount.querySelector('span').textContent}"?</p>
+          <div class="dialog-buttons">
+            <button class="btn btn-danger confirm-remove">Удалить</button>
+            <button class="btn btn-default cancel-remove">Отмена</button>
           </div>
         </div>
       </div>
     `;
     
-    document.body.insertAdjacentHTML('beforeend', messageHTML);
+    document.body.insertAdjacentHTML("beforeend", dialogHTML);
   }
 
-  confirmRemoveAccount() {
-    if (!this.accountToRemove) return;
+  executeAccountRemoval() {
+    if (!this.accountToRemove) {
+      this.closeConfirmationDialog();
+      return;
+    }
     
     const accountId = this.accountToRemove.dataset.id;
     
-    Account.remove({ id: accountId }, (error, response) => {
-      this.closeMessage();
+    Account.remove({ id: accountId }, (err, response) => {
+      this.closeConfirmationDialog();
       
-      if (error || !response.success) {
-        console.log("Ошибка при удалении счёта");
+      if (err || !response.success) {
+        alert("Ошибка при удалении счёта");
         return;
       }
-
+      
       this.accountToRemove.remove();
-      this.accountToRemove = null;
       
       const accounts = document.querySelectorAll(".account");
       if (accounts.length > 0) {
@@ -111,17 +108,15 @@ class TransactionsPage {
       } else {
         App.showPage("transactions", { account_id: null });
       }
-
+      
       App.updateWidgets();
       App.updateForms();
     });
   }
 
-  closeMessage() {
-    const message = document.querySelector(".message-overlay");
-    if (message) {
-      message.remove();
-    }
+  closeConfirmationDialog() {
+    const dialog = document.querySelector(".confirmation-dialog");
+    if (dialog) dialog.remove();
     this.accountToRemove = null;
   }
 
