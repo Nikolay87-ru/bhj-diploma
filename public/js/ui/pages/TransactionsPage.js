@@ -120,11 +120,6 @@ class TransactionsPage {
     });
   }
 
-  closeConfirmMessage() {
-    const confirmMessage = document.querySelector(".confirm-message");
-    if (confirmMessage) confirmMessage.remove();
-  }
-
   /**
    * Удаляет транзакцию (доход или расход). Требует
    * подтверждеия действия (с помощью confirm()).
@@ -170,6 +165,11 @@ class TransactionsPage {
       }
       App.update();
     });
+  }
+
+  closeConfirmMessage() {
+    const confirmMessage = document.querySelector(".confirm-message");
+    if (confirmMessage) confirmMessage.remove();
   }
 
   /**
