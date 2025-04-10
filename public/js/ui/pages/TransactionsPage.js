@@ -13,6 +13,7 @@ class TransactionsPage {
   constructor(element) {
     if (!element) throw new Error("Не передан элемент формы");
     this.element = element;
+    this.lastOptions = null;
     this.registerEvents();
   }
 
@@ -20,7 +21,7 @@ class TransactionsPage {
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-    this.render();
+    this.render(this.lastOptions);
   }
 
   /**
@@ -35,11 +36,11 @@ class TransactionsPage {
         e.preventDefault();
         this.removeAccount();
       }
-      
+
       if (e.target.closest(".confirm-remove")) {
         this.confirmAccountRemove();
       }
-      
+
       if (e.target.closest(".cancel-remove")) {
         this.closeConfirmMessage();
       }
@@ -62,9 +63,13 @@ class TransactionsPage {
     }
 
     const messageHTML = `
-      <div class="confirm-message" data-account-id="${activeAccount.dataset.id}">
+      <div class="confirm-message" data-account-id="${
+        activeAccount.dataset.id
+      }">
         <div class="message-content">
-          <p>Вы действительно хотите удалить счёт "${activeAccount.querySelector('span').textContent}"?</p>
+          <p>Вы действительно хотите удалить счёт "${
+            activeAccount.querySelector("span").textContent
+          }"?</p>
           <div class="message-buttons">
             <button class="btn btn-danger confirm-remove">Удалить</button>
             <button class="btn btn-default cancel-remove">Отмена</button>
@@ -72,28 +77,30 @@ class TransactionsPage {
         </div>
       </div>
     `;
-    
+
     document.body.insertAdjacentHTML("beforeend", messageHTML);
   }
 
   confirmAccountRemove() {
     const confirmMessage = document.querySelector(".confirm-message");
     if (!confirmMessage) return;
-    
+
     const accountId = confirmMessage.dataset.accountId;
-    const activeAccount = document.querySelector(`.account[data-id="${accountId}"]`);
-    
+    const activeAccount = document.querySelector(
+      `.account[data-id="${accountId}"]`
+    );
+
     Account.remove({ id: accountId }, (err, response) => {
       this.closeConfirmMessage();
-      
+
       if (err || !response.success) {
         return;
       }
-      
+
       if (activeAccount) {
         activeAccount.remove();
       }
-      
+
       const accounts = document.querySelectorAll(".account");
       if (accounts.length > 0) {
         accounts[0].classList.add("active");
@@ -101,7 +108,7 @@ class TransactionsPage {
       } else {
         App.showPage("transactions", { account_id: null });
       }
-      
+
       App.updateWidgets();
       App.updateForms();
     });
@@ -111,7 +118,6 @@ class TransactionsPage {
     const confirmMessage = document.querySelector(".confirm-message");
     if (confirmMessage) confirmMessage.remove();
   }
-
 
   /**
    * Удаляет транзакцию (доход или расход). Требует
@@ -127,19 +133,41 @@ class TransactionsPage {
    * Получает список Transaction.list и полученные данные передаёт
    * в TransactionsPage.renderTransactions()
    * */
-  render(options) {}
+  render(options) {
+    if (!options.account_id) return;
+    this.lastOptions = options;
+
+    Account.get(options.account_id, (error, account) => {
+      if (error || !account) return;
+      this.renderTitle(account.name);
+    });
+
+    Transaction.list(options, (error, response) => {
+      if (error || !response.data) return;
+      this.renderTransactions(response.data);
+    });
+  }
 
   /**
    * Очищает страницу. Вызывает
    * TransactionsPage.renderTransactions() с пустым массивом.
    * Устанавливает заголовок: «Название счёта»
    * */
-  clear() {}
+  clear() {
+    this.renderTransactions([]);
+    this.renderTitle("Название счёта");
+    this.lastOptions = null;
+  }
 
   /**
    * Устанавливает заголовок в элемент .content-title
    * */
-  renderTitle(name) {}
+  renderTitle(name) {
+    const title = this.element.querySelector(".content-title");
+    const description = this.element.querySelector(".content-description");
+    title.textContent = name;
+    description.textContent = "Счёт";
+  }
 
   /**
    * Форматирует дату в формате 2019-03-10 03:20:41 (строка)
@@ -154,8 +182,6 @@ class TransactionsPage {
     const hours = today.getHours().toString().padStart(2, "0");
     const minutes = today.getMinutes().toString().padStart(2, "0");
 
-    console.log(`${day} ${month} ${year} г. в ${hours}:${minutes}`)
-
     return `${day} ${month} ${year} г. в ${hours}:${minutes}`;
   }
 
@@ -163,9 +189,7 @@ class TransactionsPage {
    * Формирует HTML-код транзакции (дохода или расхода).
    * item - объект с информацией о транзакции
    * */
-  getTransactionHTML(item) {
-    
-  }
+  getTransactionHTML(item) {}
 
   /**
    * Отрисовывает список транзакций на странице
