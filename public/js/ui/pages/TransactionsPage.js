@@ -38,11 +38,17 @@ class TransactionsPage {
       }
 
       if (e.target.closest(".confirm-remove")) {
-        this.confirmAccountRemove();
+        this.confirmRemove();
       }
 
       if (e.target.closest(".cancel-remove")) {
         this.closeConfirmMessage();
+      }
+
+      const removeButton = e.target.closest(".transaction__remove");
+      if (removeButton) {
+        e.preventDefault();
+        this.removeTransaction(removeButton.dataset.id);
       }
     });
   }
@@ -61,27 +67,28 @@ class TransactionsPage {
     if (!activeAccount) {
       return;
     }
+    this.removeMessage();
+  }
 
+  removeMessage() {
     const messageHTML = `
-      <div class="confirm-message" data-account-id="${
-        activeAccount.dataset.id
-      }">
-        <div class="message-content">
-          <p>Вы действительно хотите удалить счёт "${
-            activeAccount.querySelector("span").textContent
-          }"?</p>
-          <div class="message-buttons">
-            <button class="btn btn-danger confirm-remove">Удалить</button>
-            <button class="btn btn-default cancel-remove">Отмена</button>
-          </div>
+    <div class="confirm-message" data-account-id="${activeAccount.dataset.id}">
+      <div class="message-content">
+        <p>Вы действительно хотите удалить счёт "${
+          activeAccount.querySelector("span").textContent
+        }"?</p>
+        <div class="message-buttons">
+          <button class="btn btn-danger confirm-remove">Удалить</button>
+          <button class="btn btn-default cancel-remove">Отмена</button>
         </div>
       </div>
-    `;
+    </div>
+  `;
 
     document.body.insertAdjacentHTML("beforeend", messageHTML);
   }
 
-  confirmAccountRemove() {
+  confirmRemove() {
     const confirmMessage = document.querySelector(".confirm-message");
     if (!confirmMessage) return;
 
@@ -116,7 +123,7 @@ class TransactionsPage {
 
   closeConfirmMessage() {
     const confirmMessage = document.querySelector(".confirm-message");
-    if (confirmMessage) confirmMessage.remove();
+    confirmMessage.remove();
   }
 
   /**
@@ -125,7 +132,20 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update(),
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
-  removeTransaction(id) {}
+  removeTransaction(id) {
+    this.removeMessage();
+
+    Transaction.remove({ id }, (error, response) => {
+      if (error || !response.success) {
+        return;
+      }
+
+      if (this.lastOptions) {
+        this.render(this.lastOptions);
+      }
+      App.update();
+    });
+  }
 
   /**
    * С помощью Account.get() получает название счёта и отображает
@@ -139,7 +159,6 @@ class TransactionsPage {
 
     Account.get(options.account_id, (err, account) => {
       if (err || !account) {
-        alert("Ошибка загрузки данных счёта");
         return;
       }
       this.renderTitle(account.data.name);
@@ -147,7 +166,6 @@ class TransactionsPage {
 
     Transaction.list(options, (err, response) => {
       if (err || !response?.data) {
-        alert("Ошибка загрузки транзакций");
         return;
       }
       this.renderTransactions(response.data);
@@ -181,7 +199,7 @@ class TransactionsPage {
     const today = new Date(date);
 
     const day = today.getDate();
-    const month = today.getMonth();
+    const month = today.toLocaleString("ru-RU", { month: "long" });
     const year = today.getFullYear();
     const hours = today.getHours().toString().padStart(2, "0");
     const minutes = today.getMinutes().toString().padStart(2, "0");
@@ -194,26 +212,28 @@ class TransactionsPage {
    * item - объект с информацией о транзакции
    * */
   getTransactionHTML(item) {
-    return `<div class="transaction transaction_expense row">
+    return `<div class="transaction transaction_${item.type} row">
     <div class="col-md-7 transaction__details">
       <div class="transaction__icon">
           <span class="fa fa-money fa-2x"></span>
       </div>
       <div class="transaction__info">
-          <h4 class="transaction__title">Новый будильник</h4>
+          <h4 class="transaction__title">${item.name}</h4>
           <!-- дата -->
-          <div class="transaction__date">10 марта 2019 г. в 03:20</div>
+          <div class="transaction__date">${this.formatDate(
+            item.created_at
+          )}</div>
       </div>
     </div>
     <div class="col-md-3">
       <div class="transaction__summ">
       <!--  сумма -->
-          200 <span class="currency">₽</span>
+         ${item.sum} <span class="currency">₽</span>
       </div>
     </div>
     <div class="col-md-2 transaction__controls">
         <!-- в data-id нужно поместить id -->
-        <button class="btn btn-danger transaction__remove" data-id="12">
+        <button class="btn btn-danger transaction__remove" data-id="${item.id}">
             <i class="fa fa-trash"></i>  
         </button>
     </div>
@@ -229,7 +249,7 @@ class TransactionsPage {
     if (!content) return;
 
     content.innerHTML = data
-      .map(item => this.getTransactionHTML(item))
+      .map((item) => this.getTransactionHTML(item))
       .join("");
   }
 }

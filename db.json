@@ -113,11 +113,6 @@
       "id": "jgnfbs4m979ffrj"
     },
     {
-      "name": "rer",
-      "user_id": "jgnf3iom92t25u0",
-      "id": "jgnf9t4m98n6nfk"
-    },
-    {
       "name": "sfdfdsf",
       "user_id": "jgnf80om99w1xze",
       "id": "jgnfaksm9a426e1"
@@ -287,15 +282,6 @@
       "created_at": "2025-04-08T15:15:12.643Z"
     },
     {
-      "id": "jgnf27km98n6xj3",
-      "type": "income",
-      "name": "ivan",
-      "sum": 200,
-      "account_id": "jgnf9t4m98n6nfk",
-      "user_id": "jgnf3iom92t25u0",
-      "created_at": "2025-04-08T15:15:35.102Z"
-    },
-    {
       "id": "jgnfczgm9a6rrgf",
       "type": "income",
       "name": "Тест",
@@ -321,6 +307,24 @@
       "account_id": "jgnfaksm9a426e1",
       "user_id": "jgnf80om99w1xze",
       "created_at": "2025-04-09T17:35:20.572Z"
+    },
+    {
+      "id": "jgnf3esm9baaflc",
+      "type": "income",
+      "name": "ivan",
+      "sum": 1000,
+      "account_id": "jgnfbs4m979ffrj",
+      "user_id": "jgnf3iom92t25u0",
+      "created_at": "2025-04-10T11:37:41.999Z"
+    },
+    {
+      "id": "jgnf5ywm9bayy9o",
+      "type": "income",
+      "name": "ivan",
+      "sum": 1000,
+      "account_id": "jgnfbs4m979ffrj",
+      "user_id": "jgnf3iom92t25u0",
+      "created_at": "2025-04-10T11:56:45.947Z"
     }
   ]
 }
