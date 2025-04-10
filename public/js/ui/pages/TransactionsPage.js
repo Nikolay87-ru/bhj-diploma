@@ -224,5 +224,12 @@ class TransactionsPage {
    * Отрисовывает список транзакций на странице
    * используя getTransactionHTML
    * */
-  renderTransactions(data) {}
+  renderTransactions(data) {
+    const content = this.element.querySelector(".content");
+    if (!content) return;
+
+    content.innerHTML = data
+      .map(item => this.getTransactionHTML(item))
+      .join("");
+  }
 }
