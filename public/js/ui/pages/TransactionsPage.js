@@ -31,24 +31,42 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    document.addEventListener("click", (e) => {
-      if (e.target.closest(".remove-account")) {
-        e.preventDefault();
+    document.addEventListener("click", (event) => {
+      if (event.target.closest(".remove-account")) {
+        event.preventDefault();
         this.removeAccount();
       }
 
-      if (e.target.closest(".confirm-remove")) {
+      if (event.target.closest(".confirm-remove")) {
         this.confirmAccountRemove();
       }
 
-      if (e.target.closest(".cancel-remove")) {
+      if (event.target.closest(".cancel-remove")) {
         this.closeConfirmMessage();
       }
 
-      const removeButton = e.target.closest(".transaction__remove");
+      const removeButton = event.target.closest(".transaction__remove");
       if (removeButton) {
+        event.preventDefault();
+        const transactionId = removeButton.dataset.id;
+        const transactionElement = removeButton.closest(".transaction");
+        const transactionName = transactionElement.querySelector(
+          ".transaction__title"
+        ).textContent;
+
+        this.showTransactionConfirmMessage(transactionId, {
+          name: transactionName,
+        });
+      }
+
+      if (event.target.closest(".confirm-transaction-remove")) {
         e.preventDefault();
-        this.showTransactionConfirmMessage(removeButton.dataset.id);
+        this.confirmTransactionRemove();
+      }
+
+      if (event.target.closest(".cancel-transaction-remove")) {
+        event.preventDefault();
+        this.closeConfirmMessage();
       }
     });
   }
@@ -73,9 +91,8 @@ class TransactionsPage {
         activeAccount.dataset.id
       }">
         <div class="message-content">
-          <p>Вы действительно хотите удалить счёт "${
-            activeAccount.querySelector("span").textContent
-          }"?</p>
+          <p>Вы действительно хотите удалить счёт 
+          "${activeAccount.querySelector("span").textContent}"?</p>
           <div class="message-buttons">
             <button class="btn btn-danger confirm-remove">Удалить</button>
             <button class="btn btn-default cancel-remove">Отмена</button>
@@ -126,16 +143,16 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update(),
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
-  removeTransaction(id) {
-    this.showTransactionConfirmMessage(id);
+  removeTransaction(id, data) {
+    this.showTransactionConfirmMessage(id, data);
   }
 
-  
-  showTransactionConfirmMessage(id) {
+  showTransactionConfirmMessage(id, data) {
     const messageHTML = `
     <div class="confirm-message" data-transaction-id="${id}">
       <div class="message-content">
-        <p>Вы действительно хотите удалить эту транзакцию?</p>
+        <p>Вы действительно хотите удалить транзакцию 
+        "${data.name}"?</p>
         <div class="message-buttons">
           <button class="btn btn-danger confirm-transaction-remove">Удалить</button>
           <button class="btn btn-default cancel-transaction-remove">Отмена</button>
@@ -179,20 +196,18 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options) {
-    if (!options?.account_id) return;
+    if (!options) return;
     this.lastOptions = options;
 
-    Account.get(options.account_id, (err, account) => {
-      if (err || !account) {
-        alert("Ошибка загрузки данных счёта");
+    Account.get(options.account_id, (error, account) => {
+      if (error || !account) {
         return;
       }
       this.renderTitle(account.data.name);
     });
 
-    Transaction.list(options, (err, response) => {
-      if (err || !response?.data) {
-        alert("Ошибка загрузки транзакций");
+    Transaction.list(options, (error, response) => {
+      if (error || !response.data) {
         return;
       }
       this.renderTransactions(response.data);
