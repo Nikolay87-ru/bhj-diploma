@@ -38,7 +38,7 @@ class TransactionsPage {
       }
 
       if (e.target.closest(".confirm-remove")) {
-        this.confirmRemove();
+        this.confirmAccountRemove();
       }
 
       if (e.target.closest(".cancel-remove")) {
@@ -48,7 +48,7 @@ class TransactionsPage {
       const removeButton = e.target.closest(".transaction__remove");
       if (removeButton) {
         e.preventDefault();
-        this.removeTransaction(removeButton.dataset.id);
+        this.showTransactionConfirmMessage(removeButton.dataset.id);
       }
     });
   }
@@ -67,28 +67,27 @@ class TransactionsPage {
     if (!activeAccount) {
       return;
     }
-    this.removeMessage();
-  }
 
-  removeMessage() {
     const messageHTML = `
-    <div class="confirm-message" data-account-id="${activeAccount.dataset.id}">
-      <div class="message-content">
-        <p>Вы действительно хотите удалить счёт "${
-          activeAccount.querySelector("span").textContent
-        }"?</p>
-        <div class="message-buttons">
-          <button class="btn btn-danger confirm-remove">Удалить</button>
-          <button class="btn btn-default cancel-remove">Отмена</button>
+      <div class="confirm-message" data-account-id="${
+        activeAccount.dataset.id
+      }">
+        <div class="message-content">
+          <p>Вы действительно хотите удалить счёт "${
+            activeAccount.querySelector("span").textContent
+          }"?</p>
+          <div class="message-buttons">
+            <button class="btn btn-danger confirm-remove">Удалить</button>
+            <button class="btn btn-default cancel-remove">Отмена</button>
+          </div>
         </div>
       </div>
-    </div>
-  `;
+    `;
 
     document.body.insertAdjacentHTML("beforeend", messageHTML);
   }
 
-  confirmRemove() {
+  confirmAccountRemove() {
     const confirmMessage = document.querySelector(".confirm-message");
     if (!confirmMessage) return;
 
@@ -123,7 +122,7 @@ class TransactionsPage {
 
   closeConfirmMessage() {
     const confirmMessage = document.querySelector(".confirm-message");
-    confirmMessage.remove();
+    if (confirmMessage) confirmMessage.remove();
   }
 
   /**
@@ -133,9 +132,35 @@ class TransactionsPage {
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
   removeTransaction(id) {
-    this.removeMessage();
+    this.showTransactionConfirmMessage(id);
+  }
 
-    Transaction.remove({ id }, (error, response) => {
+  
+  showTransactionConfirmMessage(id) {
+    const messageHTML = `
+    <div class="confirm-message" data-transaction-id="${id}">
+      <div class="message-content">
+        <p>Вы действительно хотите удалить эту транзакцию?</p>
+        <div class="message-buttons">
+          <button class="btn btn-danger confirm-transaction-remove">Удалить</button>
+          <button class="btn btn-default cancel-transaction-remove">Отмена</button>
+        </div>
+      </div>
+    </div>
+    `;
+
+    document.body.insertAdjacentHTML("beforeend", messageHTML);
+  }
+
+  confirmTransactionRemove() {
+    const confirmMessage = document.querySelector(".confirm-message");
+    if (!confirmMessage) return;
+
+    const transactionId = confirmMessage.dataset.transactionId;
+
+    Transaction.remove({ id: transactionId }, (error, response) => {
+      this.closeConfirmMessage();
+
       if (error || !response.success) {
         return;
       }
@@ -159,6 +184,7 @@ class TransactionsPage {
 
     Account.get(options.account_id, (err, account) => {
       if (err || !account) {
+        alert("Ошибка загрузки данных счёта");
         return;
       }
       this.renderTitle(account.data.name);
@@ -166,6 +192,7 @@ class TransactionsPage {
 
     Transaction.list(options, (err, response) => {
       if (err || !response?.data) {
+        alert("Ошибка загрузки транзакций");
         return;
       }
       this.renderTransactions(response.data);

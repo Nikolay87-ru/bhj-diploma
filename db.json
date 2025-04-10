@@ -108,14 +108,14 @@
       "id": "jgnf44om976yto7"
     },
     {
-      "name": "тест 2",
-      "user_id": "jgnf3iom92t25u0",
-      "id": "jgnfbs4m979ffrj"
-    },
-    {
       "name": "sfdfdsf",
       "user_id": "jgnf80om99w1xze",
       "id": "jgnfaksm9a426e1"
+    },
+    {
+      "name": "Накопления",
+      "user_id": "jgnf3iom92t25u0",
+      "id": "jgnf6i4m9bd35y5"
     }
   ],
   "transactions": [
@@ -255,33 +255,6 @@
       "user_id": "1"
     },
     {
-      "id": "jgnf7dgm98my57q",
-      "type": "income",
-      "name": "Тест",
-      "sum": 200,
-      "account_id": "jgnfbs4m979ffrj",
-      "user_id": "jgnf3iom92t25u0",
-      "created_at": "2025-04-08T15:08:45.157Z"
-    },
-    {
-      "id": "jgnfa7gm98myex4",
-      "type": "expense",
-      "name": "Тест",
-      "sum": 200,
-      "account_id": "jgnfbs4m979ffrj",
-      "user_id": "jgnf3iom92t25u0",
-      "created_at": "2025-04-08T15:08:57.735Z"
-    },
-    {
-      "id": "jgnf2j0m98n6g78",
-      "type": "income",
-      "name": "ivan",
-      "sum": 200,
-      "account_id": "jgnfbs4m979ffrj",
-      "user_id": "jgnf3iom92t25u0",
-      "created_at": "2025-04-08T15:15:12.643Z"
-    },
-    {
       "id": "jgnfczgm9a6rrgf",
       "type": "income",
       "name": "Тест",
@@ -309,22 +282,22 @@
       "created_at": "2025-04-09T17:35:20.572Z"
     },
     {
-      "id": "jgnf3esm9baaflc",
+      "id": "jgnf1p8m9bd44lk",
       "type": "income",
-      "name": "ivan",
-      "sum": 1000,
-      "account_id": "jgnfbs4m979ffrj",
+      "name": "На новый пк",
+      "sum": 100,
+      "account_id": "jgnf6i4m9bd35y5",
       "user_id": "jgnf3iom92t25u0",
-      "created_at": "2025-04-10T11:37:41.999Z"
+      "created_at": "2025-04-10T12:56:46.663Z"
     },
     {
-      "id": "jgnf5ywm9bayy9o",
+      "id": "jgnfa00m9bd5r2r",
       "type": "income",
-      "name": "ivan",
+      "name": "Производство рогов и копыт",
       "sum": 1000,
-      "account_id": "jgnfbs4m979ffrj",
+      "account_id": "jgnf6i4m9bd35y5",
       "user_id": "jgnf3iom92t25u0",
-      "created_at": "2025-04-10T11:56:45.947Z"
+      "created_at": "2025-04-10T12:58:02.450Z"
     }
   ]
 }
