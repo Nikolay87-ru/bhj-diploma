@@ -134,16 +134,22 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options) {
-    if (!options.account_id) return;
+    if (!options?.account_id) return;
     this.lastOptions = options;
 
-    Account.get(options.account_id, (error, account) => {
-      if (error || !account) return;
-      this.renderTitle(account.name);
+    Account.get(options.account_id, (err, account) => {
+      if (err || !account) {
+        alert("Ошибка загрузки данных счёта");
+        return;
+      }
+      this.renderTitle(account.data.name);
     });
 
-    Transaction.list(options, (error, response) => {
-      if (error || !response.data) return;
+    Transaction.list(options, (err, response) => {
+      if (err || !response?.data) {
+        alert("Ошибка загрузки транзакций");
+        return;
+      }
       this.renderTransactions(response.data);
     });
   }
@@ -164,9 +170,7 @@ class TransactionsPage {
    * */
   renderTitle(name) {
     const title = this.element.querySelector(".content-title");
-    const description = this.element.querySelector(".content-description");
     title.textContent = name;
-    description.textContent = "Счёт";
   }
 
   /**
@@ -189,7 +193,32 @@ class TransactionsPage {
    * Формирует HTML-код транзакции (дохода или расхода).
    * item - объект с информацией о транзакции
    * */
-  getTransactionHTML(item) {}
+  getTransactionHTML(item) {
+    return `<div class="transaction transaction_expense row">
+    <div class="col-md-7 transaction__details">
+      <div class="transaction__icon">
+          <span class="fa fa-money fa-2x"></span>
+      </div>
+      <div class="transaction__info">
+          <h4 class="transaction__title">Новый будильник</h4>
+          <!-- дата -->
+          <div class="transaction__date">10 марта 2019 г. в 03:20</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="transaction__summ">
+      <!--  сумма -->
+          200 <span class="currency">₽</span>
+      </div>
+    </div>
+    <div class="col-md-2 transaction__controls">
+        <!-- в data-id нужно поместить id -->
+        <button class="btn btn-danger transaction__remove" data-id="12">
+            <i class="fa fa-trash"></i>  
+        </button>
+    </div>
+</div>`;
+  }
 
   /**
    * Отрисовывает список транзакций на странице
