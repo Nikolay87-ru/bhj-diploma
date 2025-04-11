@@ -291,15 +291,6 @@
       "created_at": "2025-04-10T13:54:09.356Z"
     },
     {
-      "id": "jgnf6dkm9bf9dk2",
-      "type": "expense",
-      "name": "Купил мармышку",
-      "sum": 200,
-      "account_id": "jgnf6i4m9bd35y5",
-      "user_id": "jgnf3iom92t25u0",
-      "created_at": "2025-04-10T13:56:50.785Z"
-    },
-    {
       "id": "jgnf9mwm9bfgxdn",
       "type": "income",
       "name": "Продал свинью на базаре",
@@ -307,15 +298,6 @@
       "account_id": "jgnf6i4m9bd35y5",
       "user_id": "jgnf3iom92t25u0",
       "created_at": "2025-04-10T14:02:43.066Z"
-    },
-    {
-      "id": "jgnf1lwm9cnlmvb",
-      "type": "expense",
-      "name": "Занял другу",
-      "sum": 500,
-      "account_id": "jgnf6i4m9bd35y5",
-      "user_id": "jgnf3iom92t25u0",
-      "created_at": "2025-04-11T10:38:05.830Z"
     }
   ]
 }

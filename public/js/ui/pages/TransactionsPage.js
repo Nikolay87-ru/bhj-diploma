@@ -37,14 +37,6 @@ class TransactionsPage {
         this.removeAccount();
       }
 
-      if (event.target.closest(".confirm-remove")) {
-        this.confirmAccountRemove();
-      }
-
-      if (event.target.closest(".cancel-remove")) {
-        this.closeConfirmModal();
-      }
-
       const removeButton = event.target.closest(".transaction__remove");
       if (removeButton) {
         event.preventDefault();
@@ -57,16 +49,6 @@ class TransactionsPage {
         this.removeTransaction(transactionId, {
           name: transactionName,
         });
-      }
-
-      if (event.target.closest(".confirm-transaction-remove")) {
-        event.preventDefault();
-        this.confirmTransactionRemove();
-      }
-
-      if (event.target.closest(".cancel-transaction-remove")) {
-        event.preventDefault();
-        this.closeConfirmModal();
       }
     });
   }
@@ -95,6 +77,23 @@ class TransactionsPage {
       </div>
     `;
     document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+    const confirmButton = document.querySelector(`.confirm-${type}-remove`);
+    const cancelButton = document.querySelector(`.cancel-${type}-remove`);
+
+    if (confirmButton && cancelButton) {
+      confirmButton.addEventListener("click", () => {
+        if (type === "account") {
+          this.confirmAccountRemove();
+        } else if (type === "transaction") {
+          this.confirmTransactionRemove();
+        }
+      });
+
+      cancelButton.addEventListener("click", () => {
+        this.closeConfirmModal();
+      });
+    }
   }
 
   removeAccount() {
