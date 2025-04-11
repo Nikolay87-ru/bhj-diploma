@@ -98,7 +98,10 @@ class TransactionsPage {
 
   removeAccount() {
     const activeAccount = document.querySelector(".account.active");
-    if (!activeAccount) return;
+    if (!activeAccount) {
+      this.showNoAccountMessage();
+      return;
+    }
 
     this.showConfirmModal({
       id: activeAccount.dataset.id,
@@ -142,6 +145,26 @@ class TransactionsPage {
       App.updateWidgets();
       App.updateForms();
     });
+  }
+
+  showNoAccountMessage() {
+    const existingMessage = document.querySelector(".user-message");
+    if (existingMessage) {
+      existingMessage.remove();
+    }
+
+    const message = document.createElement("div");
+    message.className = "user-message";
+    message.innerHTML = `
+      <span class="message__remove">Выберите счёт для удаления!</span>
+    `;
+
+    const h1 = this.element.querySelector("h1");
+    h1.insertAdjacentElement("afterend", message);
+
+    setTimeout(() => {
+      message.remove();
+    }, 3000);
   }
 
   /**

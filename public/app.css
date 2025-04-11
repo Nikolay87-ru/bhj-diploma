@@ -109,3 +109,18 @@
   justify-content: flex-end;
   gap: 10px;
 }
+
+.user-message {
+  font-size: 20px;
+  padding: 10px;
+  background-color: lightgray;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-left: 10px;
+  display: inline-block;
+}
+
+.message__remove {
+  color: #f44336;
+  font-weight: bold;
+}
