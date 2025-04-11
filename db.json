@@ -327,6 +327,24 @@
       "account_id": "jgnf6esm9crtjl6",
       "user_id": "jgnf3n8m9crt3w6",
       "created_at": "2025-04-11T12:36:46.905Z"
+    },
+    {
+      "id": "jgnfbm0m9cua414",
+      "type": "expense",
+      "name": "раздал нищим",
+      "sum": 100,
+      "account_id": "jgnf6esm9crtjl6",
+      "user_id": "jgnf3n8m9crt3w6",
+      "created_at": "2025-04-11T13:45:05.511Z"
+    },
+    {
+      "id": "jgnf3i0m9cuanmm",
+      "type": "income",
+      "name": "Выиграл в лотерею",
+      "sum": 2000,
+      "account_id": "jgnf6esm9crtjl6",
+      "user_id": "jgnf3n8m9crt3w6",
+      "created_at": "2025-04-11T13:45:30.909Z"
     }
   ]
 }
