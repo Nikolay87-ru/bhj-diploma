@@ -42,7 +42,7 @@ class TransactionsPage {
       }
 
       if (event.target.closest(".cancel-remove")) {
-        this.closeConfirmMessage();
+        this.closeConfirmModal();
       }
 
       const removeButton = event.target.closest(".transaction__remove");
@@ -54,19 +54,19 @@ class TransactionsPage {
           ".transaction__title"
         ).textContent;
 
-        this.showTransactionConfirmMessage(transactionId, {
+        this.removeTransaction(transactionId, {
           name: transactionName,
         });
       }
 
       if (event.target.closest(".confirm-transaction-remove")) {
-        e.preventDefault();
+        event.preventDefault();
         this.confirmTransactionRemove();
       }
 
       if (event.target.closest(".cancel-transaction-remove")) {
         event.preventDefault();
-        this.closeConfirmMessage();
+        this.closeConfirmModal();
       }
     });
   }
@@ -80,41 +80,49 @@ class TransactionsPage {
    * либо обновляйте только виджет со счетами и формы создания дохода и расхода
    * для обновления приложения
    * */
-  removeAccount() {
-    const activeAccount = document.querySelector(".account.active");
-    if (!activeAccount) {
-      return;
-    }
 
-    const messageHTML = `
-      <div class="confirm-message" data-account-id="${
-        activeAccount.dataset.id
-      }">
-        <div class="message-content">
-          <p>Вы действительно хотите удалить счёт 
-          "${activeAccount.querySelector("span").textContent}"?</p>
-          <div class="message-buttons">
-            <button class="btn btn-danger confirm-remove">Удалить</button>
-            <button class="btn btn-default cancel-remove">Отмена</button>
+  showConfirmModal(options) {
+    const { id, type, title, confirmText, cancelText } = options;
+    const modalHTML = `
+      <div class="confirm-modal" data-${type}-id="${id}">
+        <div class="modal-content">
+          <p>${title}</p>
+          <div class="modal-buttons">
+            <button class="btn btn-danger confirm-${type}-remove">${confirmText}</button>
+            <button class="btn btn-default cancel-${type}-remove">${cancelText}</button>
           </div>
         </div>
       </div>
     `;
+    document.body.insertAdjacentHTML("beforeend", modalHTML);
+  }
 
-    document.body.insertAdjacentHTML("beforeend", messageHTML);
+  removeAccount() {
+    const activeAccount = document.querySelector(".account.active");
+    if (!activeAccount) return;
+
+    this.showConfirmModal({
+      id: activeAccount.dataset.id,
+      type: "account",
+      title: `Вы действительно хотите удалить счёт "${
+        activeAccount.querySelector("span").textContent
+      }"?`,
+      confirmText: "Удалить",
+      cancelText: "Отмена",
+    });
   }
 
   confirmAccountRemove() {
-    const confirmMessage = document.querySelector(".confirm-message");
-    if (!confirmMessage) return;
+    const confirmModal = document.querySelector(".confirm-modal");
+    if (!confirmModal) return;
 
-    const accountId = confirmMessage.dataset.accountId;
+    const accountId = confirmModal.dataset.accountId;
     const activeAccount = document.querySelector(
       `.account[data-id="${accountId}"]`
     );
 
     Account.remove({ id: accountId }, (err, response) => {
-      this.closeConfirmMessage();
+      this.closeConfirmModal();
 
       if (err || !response.success) {
         return;
@@ -144,34 +152,23 @@ class TransactionsPage {
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
   removeTransaction(id, data) {
-    this.showTransactionConfirmMessage(id, data);
-  }
-
-  showTransactionConfirmMessage(id, data) {
-    const messageHTML = `
-    <div class="confirm-message" data-transaction-id="${id}">
-      <div class="message-content">
-        <p>Вы действительно хотите удалить транзакцию 
-        "${data.name}"?</p>
-        <div class="message-buttons">
-          <button class="btn btn-danger confirm-transaction-remove">Удалить</button>
-          <button class="btn btn-default cancel-transaction-remove">Отмена</button>
-        </div>
-      </div>
-    </div>
-    `;
-
-    document.body.insertAdjacentHTML("beforeend", messageHTML);
+    this.showConfirmModal({
+      id,
+      type: "transaction",
+      title: `Вы действительно хотите удалить транзакцию "${data.name}"?`,
+      confirmText: "Удалить",
+      cancelText: "Отмена",
+    });
   }
 
   confirmTransactionRemove() {
-    const confirmMessage = document.querySelector(".confirm-message");
-    if (!confirmMessage) return;
+    const confirmModal = document.querySelector(".confirm-modal");
+    if (!confirmModal) return;
 
-    const transactionId = confirmMessage.dataset.transactionId;
+    const transactionId = confirmModal.dataset.transactionId;
 
     Transaction.remove({ id: transactionId }, (error, response) => {
-      this.closeConfirmMessage();
+      this.closeConfirmModal();
 
       if (error || !response.success) {
         return;
@@ -184,9 +181,9 @@ class TransactionsPage {
     });
   }
 
-  closeConfirmMessage() {
-    const confirmMessage = document.querySelector(".confirm-message");
-    if (confirmMessage) confirmMessage.remove();
+  closeConfirmModal() {
+    const confirmModal = document.querySelector(".confirm-modal");
+    if (confirmModal) confirmModal.remove();
   }
 
   /**
@@ -290,8 +287,9 @@ class TransactionsPage {
     const content = this.element.querySelector(".content");
     if (!content) return;
 
-    content.innerHTML = data
-      .map((item) => this.getTransactionHTML(item))
-      .join("");
+    content.innerHTML =
+      data.length === 0
+        ? "<p>Нет транзакций</p>"
+        : data.map((item) => this.getTransactionHTML(item)).join("");
   }
 }
