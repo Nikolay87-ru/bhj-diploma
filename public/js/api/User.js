@@ -40,14 +40,12 @@ class User {
       method: "GET",
       responseType: "json",
       callback: (error, response) => {
-        if (error || !response?.success) return callback(error, response);
-
-        if (response?.user) {
+        if (response && response.user) {
           this.setCurrent(response.user);
         } else {
           this.unsetCurrent();
         }
-        callback(null, response);
+        callback(error, response);
       },
     });
   }
