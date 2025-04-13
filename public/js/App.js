@@ -77,7 +77,7 @@ class App {
   static initForms() {
     this.forms = {
       login: new LoginForm(document.querySelector("#login-form")),
-      logout: new LogoutForm(document.querySelector("#logout-form")), 
+ 
       register: new RegisterForm(document.querySelector("#register-form")),
       createAccount: new CreateAccountForm(
         document.querySelector("#new-account-form")
@@ -88,6 +88,7 @@ class App {
       createExpense: new CreateTransactionForm(
         document.querySelector("#new-expense-form")
       ),
+      logout: new LogoutForm(document.querySelector("#logout-form")),
     };
   }
 

@@ -31,7 +31,7 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    document.addEventListener("click", (event) => {
+    this.element.addEventListener("click", (event) => {
       if (event.target.closest(".remove-account")) {
         event.preventDefault();
         this.removeAccount();
