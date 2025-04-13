@@ -4,7 +4,7 @@
  * и за кнопки меню
  * */
 class Sidebar {
-    /**
+  /**
    * Запускает initAuthLinks и initToggleButton
    * */
   static init() {
@@ -12,7 +12,7 @@ class Sidebar {
     this.initToggleButton();
   }
 
-    /**
+  /**
    * Отвечает за скрытие/показа боковой колонки:
    * переключает два класса для body: sidebar-open и sidebar-collapse
    * при нажатии на кнопку .sidebar-toggle
@@ -33,7 +33,7 @@ class Sidebar {
     });
   }
 
-    /**
+  /**
    * При нажатии на кнопку входа, показывает окно входа
    * (через найденное в App.getModal)
    * При нажатии на кнопку регастрации показывает окно регистрации
@@ -62,15 +62,16 @@ class Sidebar {
     if (logoutButton) {
       logoutButton.addEventListener("click", (event) => {
         event.preventDefault();
-        User.logout((error, response) => {
-          if (error || !response.success) {
-            return;
-          }
+        App.getModal("logout").open();
 
-          if (response && response.success) {
-            App.setState("init");
-          }
-        });
+        document
+          .getElementById("confirm-logout")
+          .addEventListener("click", () => {
+            const logoutForm = App.getForm("logout");
+            if (logoutForm) {
+              logoutForm.submit();
+            }
+          });
       });
     }
   }
