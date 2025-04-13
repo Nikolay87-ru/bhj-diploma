@@ -6,9 +6,7 @@ class LogoutForm extends AsyncForm {
       if (response && response.success) {
         App.setState("init"); 
         App.getModal("logout").close();
-      } else {
-        return;
-      }
+      } 
     });
   }
 }
