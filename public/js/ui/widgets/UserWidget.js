@@ -12,11 +12,9 @@ class UserWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor(element) {
-    this.element = element;
+    if (!element) throw new Error("Не передан элемент формы");
 
-    if (!element) {
-      throw new Error("Не передан элемент формы");
-    }
+    this.element = element;
   }
 
   /**

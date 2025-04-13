@@ -12,12 +12,10 @@ class TransactionsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor(element) {
+    if (!element) throw new Error("Не передан элемент формы");
+
     this.element = element;
     this.registerEvents();
-
-    if (!element) {
-      throw new Error("Не передан элемент формы");
-    }
   }
   /**
    * Регистрирует обработчики нажатия на

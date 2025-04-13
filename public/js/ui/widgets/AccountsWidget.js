@@ -14,13 +14,11 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor(element) {
+    if (!element) throw new Error("Не передан элемент формы");
+
     this.element = element;
     this.registerEvents();
     this.update();
-
-    if (!element) {
-      throw new Error("Не передан элемент формы");
-    }
   }
 
   /**
