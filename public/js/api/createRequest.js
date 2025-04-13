@@ -6,8 +6,8 @@ const createRequest = (options = {}) => {
   const {
     url,
     method = "GET",
-    data,
-    callback,
+    data = {},
+    callback = () => {},
     responseType = "json",
   } = options;
 
@@ -18,40 +18,39 @@ const createRequest = (options = {}) => {
   const formData = new FormData();
 
   if (method === "GET") {
-    if (data) {
-      const params = new URLSearchParams();
-      for (const key in data) {
-        params.append(key, data[key]);
-      }
-      requestUrl += `?${params.toString()}`;
+    const params = new URLSearchParams();
+    for (const key in data) {
+      params.append(key, data[key]);
     }
-  }
-
-  if (method !== "GET") {
-    if (data) {
-      for (const key in data) {
-        formData.append(key, data[key]);
-      }
+    requestUrl += `?${params.toString()}`;
+  } else {
+    for (const key in data) {
+      formData.append(key, data[key]);
     }
   }
 
   xhr.addEventListener("load", () => {
-    if (callback) {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        callback(null, xhr.response);
-      } else {
-        callback(new Error(`Ошибка HTTP: ${xhr.status}`), null);
-      }
+    if (xhr.status >= 200 && xhr.status < 300) {
+      callback(null, xhr.response);
+    } else {
+      callback(new Error(`Ошибка HTTP: ${xhr.status}`), null);
     }
   });
 
   xhr.addEventListener("error", () => {
-    if (callback) {
-      callback(new Error("Ошибка сети"), null);
-    }
+    callback(new Error("Ошибка сети"), null);
   });
 
-  xhr.open(method, requestUrl);
-  xhr.send(method === "GET" ? null : formData);
-  return xhr;
+  xhr.addEventListener("timeout", () => {
+    callback(new Error("Запрос превысил время ожидания"), null);
+  });
+
+  try {
+    xhr.open(method, requestUrl);
+    xhr.send(method === "GET" ? null : formData);
+    return xhr;
+  } catch (error) {
+    callback(new Error(`Ошибка при выполнении запроса: ${error.message}`), null);
+    return null;
+  }
 };

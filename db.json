@@ -345,6 +345,24 @@
       "account_id": "jgnf6esm9crtjl6",
       "user_id": "jgnf3n8m9crt3w6",
       "created_at": "2025-04-11T13:45:30.909Z"
+    },
+    {
+      "id": "jgnf8uwm9cwyg11",
+      "type": "expense",
+      "name": "расход",
+      "sum": 1000,
+      "account_id": "jgnf6i4m9bd35y5",
+      "user_id": "jgnf3iom92t25u0",
+      "created_at": "2025-04-11T15:00:00.036Z"
+    },
+    {
+      "id": "jgnf31cm9fh92hf",
+      "type": "income",
+      "name": "Продажа",
+      "sum": 2000,
+      "account_id": "3",
+      "user_id": "1",
+      "created_at": "2025-04-13T10:03:40.370Z"
     }
   ]
 }
