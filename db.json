@@ -372,6 +372,15 @@
       "account_id": "3",
       "user_id": "1",
       "created_at": "2025-04-13T10:39:27.442Z"
+    },
+    {
+      "id": "jgnf4s4m9fjrncf",
+      "type": "expense",
+      "name": "Занял Петровичу",
+      "sum": 500,
+      "account_id": "3",
+      "user_id": "1",
+      "created_at": "2025-04-13T11:14:06.446Z"
     }
   ]
 }
