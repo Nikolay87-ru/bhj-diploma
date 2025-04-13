@@ -39,11 +39,10 @@ class CreateTransactionForm extends AsyncForm {
    * */
   onSubmit(data) {
     Transaction.create(data, (error, response) => {
-      if (error) {
-        throw new Error(error);
-      }
+      if (error || !response?.success) return; 
+      
 
-      if (response && response.success) {
+      if (response?.success) {
         this.element.reset();
         App.update();
 

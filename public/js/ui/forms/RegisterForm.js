@@ -11,9 +11,7 @@ class RegisterForm extends AsyncForm {
    * */
   onSubmit(data) {
     User.register(data, (error, response) => {
-      if (error) {
-        throw new Error(error);
-      }
+      if (error || !response?.success) return;
 
       if (response && response.user) {
         User.setCurrent(response.user);

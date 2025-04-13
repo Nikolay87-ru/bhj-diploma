@@ -1,9 +1,7 @@
 class LogoutForm extends AsyncForm {
   onSubmit(data) {
     User.logout(data, (error, response) => {
-      if (error) {
-        throw new Error(error);
-      }
+      if (error || !response?.success) return;
 
       if (response && response.success) {
         App.setState("init"); 

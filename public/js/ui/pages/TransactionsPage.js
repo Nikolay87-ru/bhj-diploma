@@ -123,12 +123,10 @@ class TransactionsPage {
       `.account[data-id="${accountId}"]`
     );
 
-    Account.remove({ id: accountId }, (err, response) => {
+    Account.remove({ id: accountId }, (error, response) => {
       this.closeConfirmModal();
 
-      if (err || !response.success) {
-        return;
-      }
+      if (error || !response?.success) return;
 
       if (activeAccount) {
         activeAccount.remove();

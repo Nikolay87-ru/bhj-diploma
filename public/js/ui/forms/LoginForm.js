@@ -11,9 +11,7 @@ class LoginForm extends AsyncForm {
    * */
   onSubmit(data) {
     User.login(data, (error, response) => {
-      if (error) {
-        throw new Error(error);
-      }
+      if (error || !response?.success) return;
 
       if (response && response.success) {
         this.element.reset();

@@ -6,7 +6,7 @@
 class User {
   static URL = " /user";
 
-    /**
+  /**
    * Устанавливает текущего пользователя в
    * локальном хранилище.
    * */
@@ -14,7 +14,7 @@ class User {
     localStorage.setItem("user", JSON.stringify(user));
   }
 
-    /**
+  /**
    * Удаляет информацию об авторизованном
    * пользователе из локального хранилища.
    * */
@@ -22,15 +22,15 @@ class User {
     localStorage.removeItem("user");
   }
 
-    /**
+  /**
    * Возвращает текущего авторизованного пользователя
    * из локального хранилища
    * */
   static current() {
-    return JSON.parse(localStorage.getItem('user'));
+    return JSON.parse(localStorage.getItem("user"));
   }
 
-    /**
+  /**
    * Получает информацию о текущем
    * авторизованном пользователе.
    * */
@@ -40,17 +40,19 @@ class User {
       method: "GET",
       responseType: "json",
       callback: (error, response) => {
-        if (response && response.user) {
+        if (error || !response?.success) return callback(error, response);
+
+        if (response?.user) {
           this.setCurrent(response.user);
         } else {
           this.unsetCurrent();
         }
-        callback(error, response);
+        callback(null, response);
       },
     });
   }
 
-    /**
+  /**
    * Производит попытку авторизации.
    * После успешной авторизации необходимо
    * сохранить пользователя через метод
@@ -71,7 +73,7 @@ class User {
     });
   }
 
-    /**
+  /**
    * Производит попытку регистрации пользователя.
    * После успешной авторизации необходимо
    * сохранить пользователя через метод
@@ -92,7 +94,7 @@ class User {
     });
   }
 
-    /**
+  /**
    * Производит выход из приложения. После успешного
    * выхода необходимо вызвать метод User.unsetCurrent
    * */

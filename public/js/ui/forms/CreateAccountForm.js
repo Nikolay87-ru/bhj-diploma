@@ -10,9 +10,7 @@ class CreateAccountForm extends AsyncForm {
    * */
   onSubmit(data) {
     Account.create(data, (error, response) => {
-      if (error) {
-        throw new Error(error);
-      }
+      if (error || !response?.success) return;
 
       if (response && response.success) {
         this.element.reset();
