@@ -146,3 +146,10 @@
   background-color: #d9534f;
   border-color: #d43f3a;
 }
+
+#modal-logout .logout-footer {
+  border-top: none;
+  padding: 0;
+  justify-content: flex-end;
+  gap: 5px;
+}
