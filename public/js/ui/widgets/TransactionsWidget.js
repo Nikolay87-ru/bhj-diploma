@@ -29,11 +29,15 @@ class TransactionsWidget {
 
     incomeButton.addEventListener("click", (event) => {
       event.preventDefault();
+      App.getModal("confirmAccount").close();
+      App.getModal("confirmTransaction").close();
       App.getModal("newIncome").open();
     });
 
     expenseButton.addEventListener("click", (event) => {
       event.preventDefault();
+      App.getModal("confirmAccount").close();
+      App.getModal("confirmTransaction").close();
       App.getModal("newExpense").open();
     });
   }

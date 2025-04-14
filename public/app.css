@@ -96,119 +96,34 @@
   font-weight: bold;
 }
 
-#confirm-account-modal,
-#confirm-transaction-modal {
+.modal {
   display: none;
+  overflow: hidden;
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
+  left: 0;
   z-index: 1050;
-  overflow-y: auto;
-}
-
-#confirm-account-modal .modal-dialog,
-#confirm-transaction-modal .modal-dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1051;
-  width: auto;
-  margin: 10px;
-}
-
-#confirm-account-modal.show,
-#confirm-transaction-modal.show {
-  display: block;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-#confirm-account-modal .modal-content,
-#confirm-transaction-modal .modal-content {
-  position: relative;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid rgba(0,0,0,.2);
-  border-radius: 6px;
+  -webkit-overflow-scrolling: touch;
   outline: 0;
-  box-shadow: 0 5px 15px rgba(0,0,0,.5);
 }
 
-#confirm-account-modal .modal-footer,
-#confirm-transaction-modal .modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 15px;
-  border-top: 1px solid #eee;
-}
-
-#confirm-account-modal .btn-danger,
-#confirm-transaction-modal .btn-danger {
-  background-color: #d9534f;
-  border-color: #d43f3a;
-}
-
-#modal-logout .modal-footer {
-  display: flex;
-  justify-content: space-between;
-}
-
-#confirm-logout {
-  background-color: #d9534f;
-  border-color: #d43f3a;
-}
-
-#modal-logout .logout-footer {
-  border-top: none;
-  padding: 0;
-  justify-content: flex-end;
-  gap: 5px;
+.modal.show {
+  display: block;
 }
 
 .modal-backdrop {
   position: fixed;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
   z-index: 1040;
-  width: 100vw;
-  height: 100vh;
   background-color: #000;
-  opacity: 0.5;
-}
-
-.modal {
-  z-index: 1050;
-}
-
-#confirm-account-modal.fade,
-#confirm-transaction-modal.fade {
   transition: opacity 0.15s linear;
 }
 
-#confirm-account-modal.fade:not(.show),
-#confirm-transaction-modal.fade:not(.show) {
-  opacity: 0;
-}
-
-#confirm-account-modal,
-#confirm-transaction-modal {
-  position: fixed !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  background: white !important;
-  padding: 20px !important;
-  border: 2px solid red !important; 
-  z-index: 9999 !important;
-  display: block !important; 
-}
-
-#confirm-account-modal,
-#confirm-transaction-modal {
-  border: 3px solid red !important;
+.modal-backdrop.show {
+  opacity: 0.5;
 }

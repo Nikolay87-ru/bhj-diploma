@@ -69,11 +69,6 @@
   ],
   "accounts": [
     {
-      "name": "Банк",
-      "user_id": "1",
-      "id": "1"
-    },
-    {
       "name": "Магазин",
       "user_id": "1",
       "id": "2"
@@ -127,47 +122,15 @@
       "name": "Финансы",
       "user_id": "jgnf3n8m9crt3w6",
       "id": "jgnf6esm9crtjl6"
-    },
-    {
-      "name": "Тест",
-      "user_id": "1",
-      "id": "jgnfb7cm9h3i9js"
     }
   ],
   "transactions": [
-    {
-      "account_id": "1",
-      "created_at": "2019-09-15 10:24:02",
-      "id": "1",
-      "name": "Кредит",
-      "sum": 5000,
-      "type": "expense",
-      "user_id": "1"
-    },
-    {
-      "account_id": "1",
-      "created_at": "2019-09-17 15:53:02",
-      "id": "2",
-      "name": "Баланс на дебетовке",
-      "sum": 3200,
-      "type": "income",
-      "user_id": "1"
-    },
     {
       "account_id": "2",
       "created_at": "2019-09-26 16:23:02",
       "id": "4",
       "name": "Молочные продукты",
       "sum": 100,
-      "type": "income",
-      "user_id": "1"
-    },
-    {
-      "account_id": "2",
-      "created_at": "2019-09-25 15:03:02",
-      "id": "5",
-      "name": "Фрукты",
-      "sum": 250,
       "type": "income",
       "user_id": "1"
     },
@@ -195,24 +158,6 @@
       "id": "7",
       "name": "Долг в банк",
       "sum": 5000,
-      "type": "expense",
-      "user_id": "1"
-    },
-    {
-      "account_id": "3",
-      "created_at": "2017-10-15 13:27:02",
-      "id": "9",
-      "name": "На банду",
-      "sum": 15000,
-      "type": "expense",
-      "user_id": "1"
-    },
-    {
-      "account_id": "3",
-      "created_at": "2017-09-17 13:27:02",
-      "id": "10",
-      "name": "На стволы",
-      "sum": 6000,
       "type": "expense",
       "user_id": "1"
     },
@@ -361,15 +306,6 @@
       "created_at": "2025-04-13T10:03:40.370Z"
     },
     {
-      "id": "jgnf9vkm9fij36b",
-      "type": "income",
-      "name": "Выиграл в лотерею",
-      "sum": 500,
-      "account_id": "3",
-      "user_id": "1",
-      "created_at": "2025-04-13T10:39:27.442Z"
-    },
-    {
       "id": "jgnf800m9fmoa6n",
       "type": "expense",
       "name": "потерял",
@@ -377,24 +313,6 @@
       "account_id": "2",
       "user_id": "1",
       "created_at": "2025-04-13T12:35:28.270Z"
-    },
-    {
-      "id": "jgnfc6wm9h3igv7",
-      "type": "income",
-      "name": "тест ",
-      "sum": 1000,
-      "account_id": "jgnfb7cm9h3i9js",
-      "user_id": "1",
-      "created_at": "2025-04-14T13:14:36.642Z"
-    },
-    {
-      "id": "jgnf3ewm9h3iq37",
-      "type": "expense",
-      "name": "тест",
-      "sum": 200,
-      "account_id": "jgnfb7cm9h3i9js",
-      "user_id": "1",
-      "created_at": "2025-04-14T13:14:48.594Z"
     }
   ]
 }

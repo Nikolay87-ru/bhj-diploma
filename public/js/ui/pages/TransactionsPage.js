@@ -90,7 +90,6 @@ class TransactionsPage {
     modal.onConfirm = () => {
       Account.remove({ id: activeAccount.dataset.id }, (error, response) => {
         if (error || !response?.success) {
-          this.showMessage("Ошибка при удалении счета", "error");
           return;
         }
 
@@ -135,7 +134,6 @@ class TransactionsPage {
     modal.onConfirm = () => {
       Transaction.remove({ id }, (error, response) => {
         if (error || !response?.success) {
-          this.showMessage("Ошибка при удалении транзакции", "error");
           return;
         }
 
