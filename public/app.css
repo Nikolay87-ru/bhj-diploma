@@ -207,3 +207,8 @@
   z-index: 9999 !important;
   display: block !important; 
 }
+
+#confirm-account-modal,
+#confirm-transaction-modal {
+  border: 3px solid red !important;
+}

@@ -65,7 +65,9 @@ class TransactionsPage {
 
   removeAccount() {
     Object.values(App.modals).forEach((modal) => {
-      if (modal !== App.getModal("confirmAccount")) {
+      if (
+        !["confirmAccount", "confirmTransaction"].includes(modal.element.id)
+      ) {
         modal.close();
       }
     });
@@ -115,8 +117,10 @@ class TransactionsPage {
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
   removeTransaction(id, data) {
-    Object.values(App.modals).forEach(modal => {
-      if (modal !== App.getModal("confirmTransaction")) {
+    Object.values(App.modals).forEach((modal) => {
+      if (
+        !["confirmAccount", "confirmTransaction"].includes(modal.element.id)
+      ) {
         modal.close();
       }
     });
