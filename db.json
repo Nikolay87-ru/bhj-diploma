@@ -127,6 +127,11 @@
       "name": "Финансы",
       "user_id": "jgnf3n8m9crt3w6",
       "id": "jgnf6esm9crtjl6"
+    },
+    {
+      "name": "Тест",
+      "user_id": "1",
+      "id": "jgnfb7cm9h3i9js"
     }
   ],
   "transactions": [
@@ -372,6 +377,24 @@
       "account_id": "2",
       "user_id": "1",
       "created_at": "2025-04-13T12:35:28.270Z"
+    },
+    {
+      "id": "jgnfc6wm9h3igv7",
+      "type": "income",
+      "name": "тест ",
+      "sum": 1000,
+      "account_id": "jgnfb7cm9h3i9js",
+      "user_id": "1",
+      "created_at": "2025-04-14T13:14:36.642Z"
+    },
+    {
+      "id": "jgnf3ewm9h3iq37",
+      "type": "expense",
+      "name": "тест",
+      "sum": 200,
+      "account_id": "jgnfb7cm9h3i9js",
+      "user_id": "1",
+      "created_at": "2025-04-14T13:14:48.594Z"
     }
   ]
 }

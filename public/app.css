@@ -81,47 +81,6 @@
   line-height: 70px;
 }
 
-.confirm-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-dialog {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 4px;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-}
-
-.modal-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
 .user-message {
   font-size: 20px;
   padding: 10px;
@@ -135,6 +94,43 @@
 .message__remove {
   color: #f44336;
   font-weight: bold;
+}
+
+#confirm-account-modal,
+#confirm-transaction-modal {
+  display: none;
+}
+
+#confirm-account-modal.show,
+#confirm-transaction-modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#confirm-account-modal .modal-content,
+#confirm-transaction-modal .modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 4px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+#confirm-account-modal .modal-footer,
+#confirm-transaction-modal .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 15px;
+  border-top: 1px solid #eee;
+}
+
+#confirm-account-modal .btn-danger,
+#confirm-transaction-modal .btn-danger {
+  background-color: #d9534f;
+  border-color: #d43f3a;
 }
 
 #modal-logout .modal-footer {
@@ -152,4 +148,35 @@
   padding: 0;
   justify-content: flex-end;
   gap: 5px;
+}
+
+.modal-backdrop {
+  z-index: 1040;
+}
+
+.modal {
+  z-index: 1050;
+}
+
+#confirm-account-modal.fade,
+#confirm-transaction-modal.fade {
+  transition: opacity 0.15s linear;
+}
+
+#confirm-account-modal.fade:not(.show),
+#confirm-transaction-modal.fade:not(.show) {
+  opacity: 0;
+}
+
+#confirm-account-modal,
+#confirm-transaction-modal {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  background: white !important;
+  padding: 20px !important;
+  border: 2px solid red !important; /* Чтобы явно видеть модалку */
+  z-index: 9999 !important;
+  display: block !important; /* Принудительно показываем */
 }
