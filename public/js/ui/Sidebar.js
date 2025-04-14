@@ -62,16 +62,17 @@ class Sidebar {
     if (logoutButton) {
       logoutButton.addEventListener("click", (event) => {
         event.preventDefault();
-        App.getModal("logout").open();
-
-        document
-          .getElementById("confirm-logout")
-          .addEventListener("click", () => {
-            const logoutForm = App.getForm("logout");
-            if (logoutForm) {
-              logoutForm.submit();
-            }
-          });
+        const logoutModal = App.getModal("logout");
+        
+        const confirmBtn = document.getElementById("confirm-logout");
+        const newConfirmBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+        
+        logoutModal.open();
+        
+        newConfirmBtn.addEventListener("click", () => {
+          App.getForm("logout").submit();
+        });
       });
     }
   }

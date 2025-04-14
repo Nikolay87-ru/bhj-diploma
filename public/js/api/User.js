@@ -4,7 +4,7 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
-  static URL = " /user";
+  static URL = "/user";
 
   /**
    * Устанавливает текущего пользователя в
@@ -96,13 +96,13 @@ class User {
    * Производит выход из приложения. После успешного
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
-  static logout(callback) {
+  static logout(callback = (f) => f) {
     createRequest({
       url: this.URL + "/logout",
       method: "POST",
       responseType: "json",
       callback: (error, response) => {
-        if (response && response.success) {
+        if (response?.success) {
           this.unsetCurrent();
         }
         callback(error, response);
