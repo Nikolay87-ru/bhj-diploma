@@ -127,3 +127,12 @@
 .modal-backdrop.show {
   opacity: 0.5;
 }
+
+.logout-message {
+  margin-top: 10px;
+  /* margin-bottom: 0px; */
+}
+
+.header-logout {
+  padding-left: 0px;
+}
