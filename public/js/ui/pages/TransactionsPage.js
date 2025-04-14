@@ -32,23 +32,23 @@ class TransactionsPage {
    * */
   registerEvents() {
     this.element.addEventListener("click", (event) => {
-      if (event.target.closest(".remove-account")) {
+      const removeAccountBtn = event.target.closest(".remove-account");
+      const removeTransactionBtn = event.target.closest(".transaction__remove");
+
+      if (removeAccountBtn) {
         event.preventDefault();
         this.removeAccount();
       }
 
-      const removeButton = event.target.closest(".transaction__remove");
-      if (removeButton) {
+      if (removeTransactionBtn) {
         event.preventDefault();
-        const transactionId = removeButton.dataset.id;
-        const transactionElement = removeButton.closest(".transaction");
+        const transactionId = removeTransactionBtn.dataset.id;
+        const transactionElement = removeTransactionBtn.closest(".transaction");
         const transactionName = transactionElement.querySelector(
           ".transaction__title"
         ).textContent;
 
-        this.removeTransaction(transactionId, {
-          name: transactionName,
-        });
+        this.removeTransaction(transactionId, { name: transactionName });
       }
     });
   }
@@ -63,106 +63,43 @@ class TransactionsPage {
    * для обновления приложения
    * */
 
-  showConfirmModal(options) {
-    const { id, type, title, confirmText, cancelText } = options;
-    const modalHTML = `
-      <div class="confirm-modal" data-${type}-id="${id}">
-        <div class="modal-content">
-          <p>${title}</p>
-          <div class="modal-buttons">
-            <button class="btn btn-danger confirm-${type}-remove">${confirmText}</button>
-            <button class="btn btn-default cancel-${type}-remove">${cancelText}</button>
-          </div>
-        </div>
-      </div>
-    `;
-    document.body.insertAdjacentHTML("beforeend", modalHTML);
-
-    const confirmButton = document.querySelector(`.confirm-${type}-remove`);
-    const cancelButton = document.querySelector(`.cancel-${type}-remove`);
-
-    if (confirmButton && cancelButton) {
-      confirmButton.addEventListener("click", () => {
-        if (type === "account") {
-          this.confirmAccountRemove();
-        } else if (type === "transaction") {
-          this.confirmTransactionRemove();
-        }
-      });
-
-      cancelButton.addEventListener("click", () => {
-        this.closeConfirmModal();
-      });
-    }
-  }
-
   removeAccount() {
     const activeAccount = document.querySelector(".account.active");
     if (!activeAccount) {
-      this.showNoAccountMessage();
+      this.showMessage("Выберите счёт для удаления!", "error");
       return;
     }
 
-    this.showConfirmModal({
-      id: activeAccount.dataset.id,
-      type: "account",
-      title: `Вы действительно хотите удалить счёт "${
-        activeAccount.querySelector("span").textContent
-      }"?`,
+    const accountName = activeAccount.querySelector("span").textContent;
+    const modal = App.getModal("confirmAccount");
+
+    modal.setContent({
+      title: `Удаление счета`,
+      content: `Вы действительно хотите удалить счёт "${accountName}"?`,
       confirmText: "Удалить",
-      cancelText: "Отмена",
     });
-  }
 
-  confirmAccountRemove() {
-    const confirmModal = document.querySelector(".confirm-modal");
-    if (!confirmModal) return;
+    modal.onConfirm = () => {
+      Account.remove({ id: activeAccount.dataset.id }, (error, response) => {
+        if (error || !response?.success) {
+          this.showMessage("Ошибка при удалении счета", "error");
+          return;
+        }
 
-    const accountId = confirmModal.dataset.accountId;
-    const activeAccount = document.querySelector(
-      `.account[data-id="${accountId}"]`
-    );
+        const accounts = document.querySelectorAll(".account");
+        if (accounts.length > 0) {
+          accounts[0].classList.add("active");
+          this.render({ account_id: accounts[0].dataset.id });
+        } else {
+          this.clear();
+        }
 
-    Account.remove({ id: accountId }, (error, response) => {
-      this.closeConfirmModal();
+        App.updateWidgets();
+        App.updateForms();
+      });
+    };
 
-      if (error || !response?.success) return;
-
-      if (activeAccount) {
-        activeAccount.remove();
-      }
-
-      const accounts = document.querySelectorAll(".account");
-      if (accounts.length > 0) {
-        accounts[0].classList.add("active");
-        App.showPage("transactions", { account_id: accounts[0].dataset.id });
-      } else {
-        App.showPage("transactions", { account_id: null });
-      }
-
-      App.updateWidgets();
-      App.updateForms();
-    });
-  }
-
-  showNoAccountMessage() {
-    const existingMessage = document.querySelector(".user-message");
-    if (existingMessage) {
-      existingMessage.remove();
-    }
-
-    const message = document.createElement("div");
-    message.className = "user-message";
-    message.innerHTML = `
-      <span class="message__remove">Выберите счёт для удаления!</span>
-    `;
-
-    const h1 = this.element.querySelector("h1");
-    h1.insertAdjacentElement("afterend", message);
-
-    setTimeout(() => {
-      message.remove();
-    }, 3000);
+    modal.open();
   }
 
   /**
@@ -172,38 +109,42 @@ class TransactionsPage {
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
   removeTransaction(id, data) {
-    this.showConfirmModal({
-      id,
-      type: "transaction",
-      title: `Вы действительно хотите удалить транзакцию "${data.name}"?`,
+    const modal = App.getModal("confirmTransaction");
+
+    modal.setContent({
+      title: "Удаление транзакции",
+      content: `Вы действительно хотите удалить транзакцию "${data.name}"?`,
       confirmText: "Удалить",
-      cancelText: "Отмена",
     });
+
+    modal.onConfirm = () => {
+      Transaction.remove({ id }, (error, response) => {
+        if (error || !response?.success) {
+          this.showMessage("Ошибка при удалении транзакции", "error");
+          return;
+        }
+
+        if (this.lastOptions) {
+          this.render(this.lastOptions);
+        }
+        App.update();
+      });
+    };
+
+    modal.open();
   }
 
-  confirmTransactionRemove() {
-    const confirmModal = document.querySelector(".confirm-modal");
-    if (!confirmModal) return;
+  showMessage(text, type = "info") {
+    const message = document.createElement("div");
+    message.className = `user-message message-${type}`;
+    message.innerHTML = `<span class="message__text">${text}</span>`;
 
-    const transactionId = confirmModal.dataset.transactionId;
+    const existingMessage = this.element.querySelector(".user-message");
+    if (existingMessage) existingMessage.remove();
 
-    Transaction.remove({ id: transactionId }, (error, response) => {
-      this.closeConfirmModal();
+    this.element.querySelector("h1").after(message);
 
-      if (error || !response.success) {
-        return;
-      }
-
-      if (this.lastOptions) {
-        this.render(this.lastOptions);
-      }
-      App.update();
-    });
-  }
-
-  closeConfirmModal() {
-    const confirmModal = document.querySelector(".confirm-modal");
-    if (confirmModal) confirmModal.remove();
+    setTimeout(() => message.remove(), 3000);
   }
 
   /**
@@ -218,16 +159,18 @@ class TransactionsPage {
 
     Account.get(options.account_id, (error, account) => {
       if (error || !account) {
+        this.showMessage("Ошибка загрузки счета", "error");
         return;
       }
       this.renderTitle(account.data.name);
     });
 
     Transaction.list(options, (error, response) => {
-      if (error || !response.data) {
+      if (error) {
+        this.showMessage("Ошибка загрузки транзакций", "error");
         return;
       }
-      this.renderTransactions(response.data);
+      this.renderTransactions(response?.data || []);
     });
   }
 

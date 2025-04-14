@@ -55,6 +55,8 @@ class App {
       createAccount: new Modal(document.querySelector("#modal-new-account")),
       newIncome: new Modal(document.querySelector("#modal-new-income")),
       newExpense: new Modal(document.querySelector("#modal-new-expense")),
+      confirmAccount: new ConfirmModal("confirm-account-modal"),
+      confirmTransaction: new ConfirmModal("confirm-transaction-modal"),
     };
   }
 
@@ -77,7 +79,7 @@ class App {
   static initForms() {
     this.forms = {
       login: new LoginForm(document.querySelector("#login-form")),
- 
+
       register: new RegisterForm(document.querySelector("#register-form")),
       createAccount: new CreateAccountForm(
         document.querySelector("#new-account-form")
