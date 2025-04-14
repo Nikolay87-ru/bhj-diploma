@@ -127,11 +127,6 @@
       "name": "Финансы",
       "user_id": "jgnf3n8m9crt3w6",
       "id": "jgnf6esm9crtjl6"
-    },
-    {
-      "name": "Отдых",
-      "user_id": "1",
-      "id": "jgnfansm9fkmnhp"
     }
   ],
   "transactions": [
@@ -368,15 +363,6 @@
       "account_id": "3",
       "user_id": "1",
       "created_at": "2025-04-13T10:39:27.442Z"
-    },
-    {
-      "id": "jgnf4s4m9fjrncf",
-      "type": "expense",
-      "name": "Занял Петровичу",
-      "sum": 500,
-      "account_id": "3",
-      "user_id": "1",
-      "created_at": "2025-04-13T11:14:06.446Z"
     },
     {
       "id": "jgnf800m9fmoa6n",
