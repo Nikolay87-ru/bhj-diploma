@@ -99,23 +99,43 @@
 #confirm-account-modal,
 #confirm-transaction-modal {
   display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1050;
+  overflow-y: auto;
+}
+
+#confirm-account-modal .modal-dialog,
+#confirm-transaction-modal .modal-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1051;
+  width: auto;
+  margin: 10px;
 }
 
 #confirm-account-modal.show,
 #confirm-transaction-modal.show {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #confirm-account-modal .modal-content,
 #confirm-transaction-modal .modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 4px;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  position: relative;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 6px;
+  outline: 0;
+  box-shadow: 0 5px 15px rgba(0,0,0,.5);
 }
 
 #confirm-account-modal .modal-footer,
@@ -151,7 +171,14 @@
 }
 
 .modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: 0.5;
 }
 
 .modal {
@@ -176,7 +203,7 @@
   transform: translate(-50%, -50%) !important;
   background: white !important;
   padding: 20px !important;
-  border: 2px solid red !important; /* Чтобы явно видеть модалку */
+  border: 2px solid red !important; 
   z-index: 9999 !important;
-  display: block !important; /* Принудительно показываем */
+  display: block !important; 
 }

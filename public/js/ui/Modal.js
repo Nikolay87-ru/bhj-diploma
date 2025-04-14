@@ -46,14 +46,33 @@ class Modal {
    * Открывает окно: устанавливает CSS-свойство display
    * со значением «block»
    * */
-  open() {
-    this.element.style.setProperty("display", "block");
-  }
+    open() {
+      document.querySelectorAll('.modal.show').forEach(modal => {
+        if (modal !== this.element) {
+          modal.style.display = 'none';
+          modal.classList.remove('show');
+        }
+      });
+    
+      this.element.classList.add('show');
+      this.element.style.display = 'block';
+      document.body.classList.add('modal-open');
+      
+      this.backdrop = document.createElement('div');
+      this.backdrop.className = 'modal-backdrop fade show';
+      document.body.appendChild(this.backdrop);
+    }
 
     /**
    * Закрывает окно: удаляет CSS-свойство display
    * */
-  close() {
-    this.element.style.setProperty("display", "none");
-  }
+    close() {
+      this.element.classList.remove('show');
+      this.element.style.display = 'none';
+      document.body.classList.remove('modal-open');
+      
+      if (this.backdrop && this.backdrop.parentNode) {
+        this.backdrop.parentNode.removeChild(this.backdrop);
+      }
+    }
 }

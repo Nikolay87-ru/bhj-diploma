@@ -64,6 +64,12 @@ class TransactionsPage {
    * */
 
   removeAccount() {
+    Object.values(App.modals).forEach((modal) => {
+      if (modal !== App.getModal("confirmAccount")) {
+        modal.close();
+      }
+    });
+
     const activeAccount = document.querySelector(".account.active");
     if (!activeAccount) {
       this.showMessage("Выберите счёт для удаления!", "error");
@@ -109,6 +115,11 @@ class TransactionsPage {
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
   removeTransaction(id, data) {
+    Object.values(App.modals).forEach(modal => {
+      if (modal !== App.getModal("confirmTransaction")) {
+        modal.close();
+      }
+    });
     const modal = App.getModal("confirmTransaction");
 
     modal.setContent({
